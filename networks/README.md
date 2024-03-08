@@ -3,6 +3,8 @@
 
 ### Install R, Rtools, RStudio and inside R the following packages
 ```
+install.packages("topGO")
+install.packages("biomaRt")
 install.packages("DeSeq2")
 install.packages('CoDiNA')
 install.packages("eulerr")
