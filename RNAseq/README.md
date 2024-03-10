@@ -526,7 +526,7 @@ ggplot(data = deseq_object_results_df) +
                  y = padj),
              alpha = 0.5) +
   geom_point(data = subset(x = deseq_object_results_df,
-                           padj < 0.05),
+                           padj < 0.01),
              aes(x = log2FoldChange,
                  y = padj),
              colour = "red")
@@ -543,7 +543,7 @@ ggplot(data = deseq_object_results_df) +
                  y = -log10(padj)), #Add -log10() here
              alpha = 0.5) +
   geom_point(data = subset(x = deseq_object_results_df,
-                           padj < 0.05),
+                           padj < 0.01),
              aes(x = log2FoldChange,
                  y = -log10(padj)), #Add -log10() here
              colour = "red")
@@ -559,7 +559,7 @@ volcano_plot <- ggplot(data = deseq_object_results_df) +
                  y = -log10(padj)),
              alpha = 0.5) +
   geom_point(data = subset(x = deseq_object_results_df,
-                           padj < 0.05),
+                           padj < 0.01),
              aes(x = log2FoldChange,
                  y = -log10(padj)),
              colour = "red")
