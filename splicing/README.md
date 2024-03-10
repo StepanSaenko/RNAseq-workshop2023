@@ -8,4 +8,10 @@ The study that described the generation of the data can be found [here](https://
 In brief, the dataset consists of brains and gonads sampled from honeybee queens and males (drones).  
 
 ## 2. Background to data processing for differential splicing analysis  
+For each sample, data were downloaded and extracted from NCBI using the [sratoolkit](https://github.com/ncbi/sra-tools).  
+The data were quality assessed using [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) before each sample
+was aligned using [STAR](https://github.com/alexdobin/STAR) against the latest available reference genome assembly, which obtained from [Ensembl Metazoa](https://metazoa.ensembl.org/Apis_mellifera/Info/Index).  
+Using the alignment BAM files, we then ran [rMATS](https://rnaseq-mats.sourceforge.io/download.html).  
+
+## 3. Analysing the output data from rMATs  
 
