@@ -518,7 +518,7 @@ function, which adds a layer on top of the original points.
 
 We can also add the argument 'colour' to set the colour of specific points. Here, 
 red dots will indicate points that are significantly differentially expressed
-between nurses and foragers.  
+between queens and drones.  
 
 ```
 ggplot(data = deseq_object_results_df) +
