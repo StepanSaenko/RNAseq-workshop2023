@@ -307,7 +307,7 @@ saveRDS(object = deseq_txi_gonads,
 
 brain_samples  <- colnames(counts(deseq_txi)) %in% 
   subset(x = samples_information,
-                tissue == "brains")$sample_id
+                tissue == "brain")$sample_id
 deseq_txi_brains <- deseq_txi[, brain_samples]
 
 ## Check if the number subsetted is correct:
