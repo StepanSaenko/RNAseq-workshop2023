@@ -1,37 +1,44 @@
 #RNAseq analysis with kallisto and DeSeq2
+authors: Eckart Stolle (LIB Bonn) & Joe Colgan (U Mainz)
+Transcriptomic analysis of Apis mellifera
 
-### install R packages
+## 1. Install libraries:  
+For the purpose of this tutorial, there are some packages, which each of you
+will need to install. You can do so using the following commands:  
 ```
-#install bioconductor
+# install bioconductor
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install(version = "3.18")
 BiocManager::install(c("BiocFileCache","xml2","AnnotationDbi","XML","httr","KEGGREST","lintr","lattice","Rgraphviz"))
 BiocManager::install("biomaRt")
 BiocManager::install("topGO")
-install.packages('tidyverse', dependencies=TRUE)
-install.packages(c("tximport","eulerr","readr","ggplot2","dplyr","tidyr", dependecies=TRUE))
-install.packages('CoDiNA')
-install.packages("devtools")
-install.packages("ncdf4")
-#if you run Linux you can install it also via: sudo apt-get install r-cran-ncdf4
-install.packages(c("HiClimR","igraph"))
-
-library(devtools)
-install_github("deisygysi/wTO")
-devtools::install_github('RfastOfficial/Rfast')
-#update RcppArmadillo
-
 BiocManager::install("tximport")
 BiocManager::install("tidyverse")
 BiocManager::install("eulerr")
 BiocManager::install("pheatmap")
 BiocManager::install("RColorBrewer")
 BiocManager::install("DESeq2")
+install.packages('CoDiNA')
+install.packages("devtools")
+install.packages("ncdf4")
+install.packages(c("HiClimR","igraph"))
+
+library(devtools)
+install_github("deisygysi/wTO")
+devtools::install_github('RfastOfficial/Rfast')
 ```
 
 
-### start analysis of transcript counts from kallisto
+## 2. Load libraries:
+Next, we load packages (also called _libraries_) that can be used by R to analyse your data.  
+These are packages that contain *functions* written by other researchers in R 
+that allow us to perform tasks without having to create or write functions ourselves.  
+
+For this first script, we will load five packages that help with formatting data, 
+and visualising plots.  
+
+To load the required packages, we use the 'library()' function:
 ```
 # load packages
 library(tximport)
@@ -40,13 +47,39 @@ library(tidyverse)
 library(pheatmap)
 library(RColorBrewer)
 library(DESeq2)
+```
 
-#check you working DIR
+## 3. Load data:
+Once we have libaries loaded, we can load our data. 
+Our input data comes from the software tool `salmon` or `kallisto`, which performs transcriptome-based
+mappings and quantifies transcript expression (this has already been performed) for
+each sample. The main output of `salmon/kallisto` that we will use for our transcriptomic
+analysis is the `quant.sf` (salmon) or `abundace.tsv` (kallisto) file with a file being generated for each sample.  
+Each `quant.sf` file contains information on:  
+- transcript id  
+- transcript length   
+- effective length  
+- transcripts per million (TPM)
+- number of reads
+
+Kallisto's `abundance.tsv` file has a similar structure
+- target_id
+- length
+- eff_length
+- est_counts
+- tpm
+
+For the present analysis, TPM values will be used.  
+
+We can load the data in using the following steps - it may look a bit complicated
+but this is the most complicated part of the tutorial!  
+
+```
+## check you working DIR
 getwd()
 
-# get list of PATHs/Files (one output file per Sample
-
-# empty list
+## get list of PATHs/Files (one output file per Sample
+## Set paths to folders containing output files from salmon/kallisto
 paths <- list()
 
 # which folder to scan
@@ -70,7 +103,11 @@ names(paths$salmon_files) <- gsub(paths$count_files_relative,
 
 # Extract sample names and put into df for tximport
 samples     <- data.frame(treatment = names(paths$count_files))
+```
 
+## 4. Load sample information data:  
+For our analysis, researchers that studied the honeybees in our experiment, collected information about the samples, which is stored in a file `sample.info.short.tsv`.  This file contains information on whether an individual sample is a queen or drone (in the table referred to as `caste`, although this is not really correct as we are talking about different sexes), which is important as we want to ask whether they differ in gene expression. In addition, the file also contains information on whether the sample originated from brain or gonad tissue while also what age the bees had. 
+```
 # load sample information, info about treatments or other groupings
 samples_information <- read.table(file = "sample.data.short.tsv",
                                   header = FALSE,
@@ -89,22 +126,47 @@ samples_information$age <- as.factor(samples_information$age)
 samples_information$sample_id <- row.names(samples_information)
 print(samples_information)
 #samples <- data.frame(treatment = samples_information[4])
+```
 
+## 5. Generate gene-level counts:
+To perform our analysis, first, we read in a file `transcript.gene.map.txt` and store it as an object 'transcript_to_gene'. 
+The file looks like the example below, where column1 is the transcript ID and column 2 is the gene/locus ID. We can extract such information from the GTF file
+```
+XR_001705491.2  LOC551580
+XR_001705490.2  LOC551580
+```
+
+```
 # load transcripts to gene mapping
 transcript_to_gene <- read.table(file = "transcript.gene.map.txt",
                                  col.names = c("transcript",
                                                "locus"))
+```
 
+Next, we use the function 'tximport()' from the R package 'tximport' to match our transcripts to individual genes. This produces summarised counts for each gene. If we did not do this, our analysis would compare individual transcripts (RNA) but we want to compare expression at the gene level. Therefore, for each gene, we sum the counts for their corresponding transcripts.    
+```
 # import data
 txi_counts <- tximport(paths$count_files,
                        type    = "kallisto",
                        tx2gene = transcript_to_gene,
                        countsFromAbundance = "no")
 
-#check
 head(txi_counts$counts)
+```
 
-#create Deseq2 objects
+Next, we construct a DESeq2 object which stores:  
+- Gene-level count data  
+- Sample information  
+- Design  
+With the 'design' argument, we can specify variables that we want DESeq2 to be aware for. For example, this information includes:  
+- 'age': the age that the bee had
+- 'caste': whether the individual is a queen or a drone.  
+- 'tissue': whether the tissue was from brains or gonads.  
+
+We then create the object using the function 'DESeqDataSetFromTximport'.  
+
+```
+#create Deseq object(s)
 print(samples_information)
 
 deseq_txi1 <- DESeqDataSetFromTximport(txi     = txi_counts,
@@ -122,32 +184,43 @@ deseq_txi3 <- DESeqDataSetFromTximport(txi     = txi_counts,
 deseq_txi4 <- DESeqDataSetFromTximport(txi     = txi_counts,
                                       colData = samples_information,
                                       design  = ~age + caste)
-# Error in checkFullRank(modelMatrix) :   the model matrix is not full rank, so the model cannot be fit as specified.
-#  One or more variables or interaction terms in the design formula are linear
-#  combinations of the others and must be removed.
-# but age is not ressolved by caste, queens are 7 and drones are 15d old
+```
+We observe an Error here:
+```
+Error in checkFullRank(modelMatrix) :   the model matrix is not full rank, so the model cannot be fit as specified.
+One or more variables or interaction terms in the design formula are linear
+combinations of the others and must be removed.
+```
 
+Look at the sample information again: `print(samples_information)`. Age is not ressolved by caste, queens are all 7 and drones are all 15 days old. Hence we cannot discriminate age from caste/sex here. We will ignore the age since development is faster in queens than drones and hence likely the sampled age reflect similar developmental stages. However, we cannot test this assumption here.
 
+```
 deseq_txi <- DESeqDataSetFromTximport(txi     = txi_counts,
                                       colData = samples_information,
                                       design  = ~caste + tissue)
 ```
 
-### analysis
+Using this DESeq2 object, we can check how many genes our species has. This can be performed using the 'counts()' function. We can then _nest_ this function inside of another called 'nrow()', a base R function, which will count the *n*umber of *row*s in our dataframe.  
+
 ```
-## how many genes did we detect
+## how many genes does our psecies have?
 nrow(counts(deseq_txi))
-#12123
 ```
+
+How many genes does our species have?  
+
+Now, a potential issue with any transcriptomic analysis is lowly expressed genes or genes that are not expressed in any samples. These are not biologically informative to answering our main question and therefore, we can remove them.  
+
+In the next steps, we remove genes where the total number of reads across all samples is 10, which is quite low. Therefore, for a gene to be kept in our analysis, it must have more than 10 reads across our 17 samples.
 
 ```
 ## Filter out lowly expressed genes:
 keep      <- rowSums(counts(deseq_txi)) >= 10
 deseq_txi <- deseq_txi[keep, ]
 print(nrow(deseq_txi))
-#11980
 ```
 
+Last, for this section, we save our DESeq2 object as we can use it again in a later script. To save our object, we use the funtion 'saveRDS()', which is a base R function that saves our object to an R Data Serialisation (RDS) file. These files can store objects and can later be loaded into other R scripts and used there. 
 ```
 ## Create output 'results' directory:
 dir.create(path = "results")
@@ -155,10 +228,12 @@ saveRDS(object = deseq_txi,
         file = "results/deseq_txi.rds")
 ```
 
-#create Deseq2 object
+## 6. Generate a DESeq object:
+To allow for running statistical tests, we run the DESeq2 which implements generalised linear models to examine relationships between variables we measured and the expression of each gene. However, to perform more basic analyses, such as clustering-based analyses, we need to first run the function 'DESeq()', which creates a DESeq2-formatted object.    
 ```
 deseq_object  <- DESeq(deseq_txi)
 ```
+
 ## 7. Extract normalised gene-level counts:
 For examining relationships among samples and tissues, we normalise our read counts, which makes samples more comparable. The form of normalisation is called 'variance stablising transformation' and is implemented using the function 'vst()' from the DESeq2 R package.
 ```
@@ -168,7 +243,7 @@ vsd <- vst(deseq_object,
 ```
 
 ## 8. Principal component analysis:
-Using the normalised counts stored in the 'vsd' object, we can perform a principal component analysis (PCA). PCAs help to visualise the overall similarities and differences among samples allowing for identifying outlier samples or batch effects (e.g., whether individuals from the same colony are more similar to each other than to other ants).  
+Using the normalised counts stored in the 'vsd' object, we can perform a principal component analysis (PCA). PCAs help to visualise the overall similarities and differences among samples allowing for identifying outlier samples or batch effects (e.g., whether individuals from the same colony or sequencing run are more similar to each other than caste or tissues).  
 
 To perform a PCA, we run the function 'plotPCA()', which performs both the PCA but also plots the output of the analysis. By default, it outputs the first two principal components, which each explain a certain amount of variance in our dataset. 
 ```
@@ -183,9 +258,13 @@ pcaplot
 dev.off()
 ```
 
+## 9. Examine expresison profiles between tissues:  
+Another use of the transformed data is sample clustering. Here, we apply the 'dist()' function to calculate sample-to-sample distances. The greater the differences in gene expression between two samples, the greater the distance.
 ```
-## heatmap
 sampleDists <- dist(t(assay(vsd)))
+```
+A heatmap of this distance matrix gives us an overview of similarities and dissimilarities between samples.
+```
 sampleDistMatrix <- as.matrix(sampleDists)
 rownames(sampleDistMatrix) <- paste(vsd$submorph,
                                     vsd$tissue,
@@ -193,7 +272,9 @@ rownames(sampleDistMatrix) <- paste(vsd$submorph,
 colnames(sampleDistMatrix) <- NULL
 colors <- colorRampPalette(rev(brewer.pal(9,
                                           "Blues")))(255)  
-
+```
+Lastly, we plot and save the heatmap:
+```
 heatmap <- pheatmap(sampleDistMatrix,
          clustering_distance_rows = sampleDists,
          clustering_distance_cols = sampleDists,
@@ -204,7 +285,11 @@ heatmap
 dev.off()
 ```
 
-## save subsets of the data
+Based on the profiles above, we can see that the two tissues (brains, gonads) differ considerably 
+in terms of overall gene expression (more than the caste/sex). Therefore, to understand differences between 
+queens and drones, we should analyse each tissue independently.  
+
+Therefore, we can subset the two tissues:
 
 ```
 gonads_samples  <- colnames(counts(deseq_txi)) %in% 
@@ -231,37 +316,56 @@ print(nrow(deseq_txi_brains))
 ## Save:
 saveRDS(object = deseq_txi_brains,
         file = "results/deseq_txi_brains.rds")
-
-
-queen_samples  <- colnames(counts(deseq_txi)) %in% 
-  subset(x = samples_information,
-                caste == "queen")$sample_id
-deseq_txi_queens <- deseq_txi[, queen_samples]
-
-## Check if the number subsetted is correct:
-print(nrow(deseq_txi_queens))
-
-## Save:
-saveRDS(object = deseq_txi_queens,
-        file = "results/deseq_txi_queens.rds")
-
-
-drone_samples  <- colnames(counts(deseq_txi)) %in% 
-  subset(x = samples_information,
-                caste == "drone")$sample_id
-deseq_txi_drones <- deseq_txi[, drone_samples]
-
-## Check if the number subsetted is correct:
-print(nrow(deseq_txi_drones))
-
-## Save:
-saveRDS(object = deseq_txi_drones,
-        file = "results/deseq_txi_drones.rds")
-
 ```
 
-## further analysis specific to each subset
+
+Part 2. tissue-specific analysis - brains
+## 1. Load libraries:
+As with the first script, the first thing we want to do is load libraries that contain functions that we will use to:
+- Perform a principal component analysis  
+- Identify differentially expressed genes between queen and drones  
+- Visualise differentially expressed genes  
+
 ```
+library(tidyverse)
+library(DESeq2)
+```
+
+## 2. Load data:
+Here, we will load an object from our previous script 'deseq2_analysis_part1_tissues.Rmd' that contains the DESeq2 object, which includes information on gene-level counts, sample information, as well as the design.  
+
+We can load the RDS object using the function 'readRDS()' and store the information as an object.  
+
+```
+deseq_txi_brains <- readRDS(file = "results/deseq_txi_brains.rds")
+```
+
+## 3. Perform a differential expression analysis:  
+We will use a statistical test called a likelihood ratio test (LRT).
+To perform an LRT, we create two models - a full model containing all of our
+variables, as well as a reduced model, which contains the variable that we may not specifically be interested in but we want the model to control for. In this case, we have the following:
+- full model: colony + submorph
+- reduced model: colony
+
+The first thing that we want to change is the 'design' as we no longer have 
+'tissue' as an explanatory variable. We can readjust the 'design' of our object using the 'design()' function. 
+
+In addition, we want to set 'nurses (N)' as our reference, which we can do 
+using the 'relevel()' function.  
+
+```{r, message = FALSE, results = 'hide', warning=FALSE}
+design(deseq_txi_brains) <- ~age + caste
+
+deseq_txi_brains$submorph <- relevel(deseq_txi_brains$caste,
+                                       ref = "queen")
+
+deseq_object <- DESeq(deseq_txi_brains,
+                      test = "LRT",
+                      reduced = ~age)
+```
+
+
+
 
 # load the Deseq Object we created earlier
 deseq_txi_brains <- readRDS(file = "results/deseq_txi_brains.rds")
