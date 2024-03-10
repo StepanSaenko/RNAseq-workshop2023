@@ -642,8 +642,8 @@ Task: repreat the above analysis for gonads
 
 
 # Part 4. overlap
-The purpose of this script is to examine overlap in genes that are differentially expressed between nurses and
-foragers in the antennae and the brains.
+The purpose of this script is to examine overlap in genes that are differentially expressed between queens and
+drones in the gonads and the brains.
 The script loads RDS objects generated from previous scripts:
 - deseq_object_results_sig_gonads.rds
 - deseq_object_results_sig_brains.rds
@@ -662,7 +662,7 @@ We load our outputs for each tissue from DESeq2, which contain genes (rownames),
 expression of a gene across all samples), log2FoldChange (expression difference between nurses and foragers),
 as well as adjusted p value (padj).
 ```
-deseq_object_results_sig_antennae <- readRDS(
+deseq_object_results_sig_gonads <- readRDS(
 file = "results/deseq_object_results_sig_gonads.rds")
 deseq_object_results_sig_brains <- readRDS(
 file = "results/deseq_object_results_sig_brains.rds")
@@ -672,14 +672,14 @@ file = "results/deseq_object_results_sig_brains.rds")
 As mentioned above, the row names of our DESeq2 output contain the gene name, which we can extract
 using the function ‘rownames()’ and store as an object for each individual tissue.
 ```
-antennae_degs <- rownames(deseq_object_results_sig_gonads)
+gonads_degs <- rownames(deseq_object_results_sig_gonads)
 brains_degs <- rownames(deseq_object_results_sig_brains)
 ```
 
 ## 4. Combine input genes lists to examine overlap:
 Next, we use the ‘euler()’ function from the eulerr R package, which creates a list using the DEGs found in each tissue.
 ```
-euler_lists <- euler(combinations = list("Antennae" = antennae_degs,
+euler_lists <- euler(combinations = list("Gonads" = gonads_degs,
 "Brains" = brains_degs))
 ```
 
