@@ -138,23 +138,40 @@ deseq_txi <- DESeqDataSetFromTximport(txi     = txi_counts,
 ## how many genes did we detect
 nrow(counts(deseq_txi))
 #12123
+```
 
+```
 ## Filter out lowly expressed genes:
 keep      <- rowSums(counts(deseq_txi)) >= 10
 deseq_txi <- deseq_txi[keep, ]
 print(nrow(deseq_txi))
 #11980
+```
 
+```
 ## Create output 'results' directory:
 dir.create(path = "results")
 saveRDS(object = deseq_txi,
         file = "results/deseq_txi.rds")
+```
 
-##
+#create Deseq2 object
+```
 deseq_object  <- DESeq(deseq_txi)
+```
+## 7. Extract normalised gene-level counts:
+For examining relationships among samples and tissues, we normalise our read counts, which makes samples more comparable. The form of normalisation is called 'variance stablising transformation' and is implemented using the function 'vst()' from the DESeq2 R package.
+```
+## Normalise counts:
 vsd <- vst(deseq_object,
            blind = FALSE)
+```
 
+## 8. Principal component analysis:
+Using the normalised counts stored in the 'vsd' object, we can perform a principal component analysis (PCA). PCAs help to visualise the overall similarities and differences among samples allowing for identifying outlier samples or batch effects (e.g., whether individuals from the same colony are more similar to each other than to other ants).  
+
+To perform a PCA, we run the function 'plotPCA()', which performs both the PCA but also plots the output of the analysis. By default, it outputs the first two principal components, which each explain a certain amount of variance in our dataset. 
+```
 ## PCA
 pcaplot <- plotPCA(vsd,
         intgroup = c("tissue",
@@ -164,7 +181,9 @@ pcaplot <- plotPCA(vsd,
 jpeg(file="PCA.jpeg")
 pcaplot
 dev.off()
+```
 
+```
 ## heatmap
 sampleDists <- dist(t(assay(vsd)))
 sampleDistMatrix <- as.matrix(sampleDists)
@@ -183,10 +202,11 @@ heatmap <- pheatmap(sampleDistMatrix,
 jpeg(file="Heatmap.jpeg")
 heatmap
 dev.off()
+```
 
 ## save subsets of the data
 
-#################
+```
 gonads_samples  <- colnames(counts(deseq_txi)) %in% 
   subset(x = samples_information,
                 tissue == "gonad")$sample_id
@@ -199,7 +219,7 @@ print(nrow(deseq_txi_gonads))
 saveRDS(object = deseq_txi_gonads,
         file = "results/deseq_txi_gonads.rds")
 
-##################
+
 brain_samples  <- colnames(counts(deseq_txi)) %in% 
   subset(x = samples_information,
                 tissue == "brains")$sample_id
@@ -212,7 +232,7 @@ print(nrow(deseq_txi_brains))
 saveRDS(object = deseq_txi_brains,
         file = "results/deseq_txi_brains.rds")
 
-###########
+
 queen_samples  <- colnames(counts(deseq_txi)) %in% 
   subset(x = samples_information,
                 caste == "queen")$sample_id
@@ -225,7 +245,7 @@ print(nrow(deseq_txi_queens))
 saveRDS(object = deseq_txi_queens,
         file = "results/deseq_txi_queens.rds")
 
-###########
+
 drone_samples  <- colnames(counts(deseq_txi)) %in% 
   subset(x = samples_information,
                 caste == "drone")$sample_id
