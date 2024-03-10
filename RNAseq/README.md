@@ -405,6 +405,15 @@ To extract results from our DESeq2 object, we use the function 'results()' and s
 
 ```
 res <- results(deseq_object)
+
+#inspect the results
+
+head(results(deseq_object, tidy=TRUE))
+
+summary(res)
+
+res <- res[order(res$padj),]
+head(res)
 ```
 
 We can also specifically extract results relevant to answering our scientific question by using the argument 'name' inside of the function 'results'.  
