@@ -362,7 +362,7 @@ deseq_txi_brains$caste <- relevel(deseq_txi_brains$caste,
 
 deseq_object <- DESeq(deseq_txi_brains,
                       test = "LRT",
-                      reduced = ~caste)
+                      reduced = ~1)
 ```
 
 ## 4. Perform a principal component analysis:  
