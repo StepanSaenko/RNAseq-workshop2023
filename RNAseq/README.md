@@ -253,7 +253,7 @@ pcaplot <- plotPCA(vsd,
                      "caste")) +
   theme_bw()
 
-jpeg(file="PCA.jpeg")
+jpeg(file="results/PCA.jpeg")
 pcaplot
 dev.off()
 ```
@@ -280,7 +280,7 @@ heatmap <- pheatmap(sampleDistMatrix,
          clustering_distance_cols = sampleDists,
          col = colors)
 
-jpeg(file="Heatmap.jpeg")
+jpeg(file="results/Heatmap.jpeg")
 heatmap
 dev.off()
 ```
