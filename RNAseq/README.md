@@ -96,8 +96,8 @@ paths$count_files <- file.path(paths$count_output,
                                   paths$count_files_relative)
 
 # Automatically extract file names from salmon/kallisto outputs to use for colnames
-# names(paths$salmon_files) <- paste0("sample", 1:17) #standard sample names sample1 ... sample17
-names(paths$salmon_files) <- gsub(paths$count_files_relative,
+# names(paths$count_files) <- paste0("sample", 1:17) #standard sample names sample1 ... sample17
+names(paths$count_files) <- gsub(paths$count_files_relative,
                                     pattern = "/.*",
                                     replacement = "")
 
