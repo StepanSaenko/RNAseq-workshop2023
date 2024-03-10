@@ -706,26 +706,26 @@ width = 5)
 ```
 
 ## 6. Examine changes per caste:
-Next, we want to look at specific overlap within a submorph.
+Next, we want to look at specific overlap within a caste/sex.
 
 #### 1) Gonads
 ##### a) drones:
-For foragedronesrs, we subset the output of DESeq2 to obtain genes that are both significantly expressed (padj < 0.05) and have a bias in terms of expression in drones (log2FoldChange > 0).
+For drones, we subset the output of DESeq2 to obtain genes that are both significantly expressed (padj < 0.05) and have a bias in terms of expression in drones (log2FoldChange > 0).
 Once we subset the data we want, we extract the gene names and store as an object.
 ```
-gonads_degs_f <- subset(x = deseq_object_results_sig_gonads,
-padj < 0.05 & log2FoldChange > 0) gonads_degs_f_list <- row.names(gonads_degs_f)
+gonads_degs_drones <- subset(x = deseq_object_results_sig_gonads,
+padj < 0.05 & log2FoldChange > 0)
+gonads_degs_drones_list <- row.names(gonads_degs_drones)
 ```
 
 ##### b) queens:
-Same with nurses, we subset the output of DESeq2 to obtain genes that are both significantly expressed
+Same with queens, we subset the output of DESeq2 to obtain genes that are both significantly expressed
 (padj < 0.05) and have a bias in terms of expression in queens (log2FoldChange < 0).
 Once we subset the data we want, we extract the gene names and store as an object.
 ```
-gonads_degs_n <- subset(x = deseq_object_results_sig_gonads,
-padj < 0.05 &
-log2FoldChange < 0)
-gonads_degs_n_list <- row.names(gonads_degs_n)
+gonads_degs_queens <- subset(x = deseq_object_results_sig_gonads,
+padj < 0.05 & log2FoldChange < 0)
+gonads_degs_queens_list <- row.names(gonads_degs_queens)
 ```
 
 #### 2) Brains:
@@ -734,30 +734,30 @@ task: repeat the above for brains
 ##### b) queens:
 
 
-Check whether caste-biased genes are conserved across tissues.
+##### Check whether caste-biased genes are conserved across tissues.
 ```
-euler_f_lists <- euler(combinations = list("gonads - drones" = gonads_degs_f_list,
-"Brains - F" = brains_degs_f_list))
-euler_n_lists <- euler(combinations = list("gonads - queens" = gonads_degs_n_list,
-"Brains - N" = brains_degs_n_list))
+euler_drones_lists <- euler(combinations = list("gonads - drones" = gonads_degs_drones_list,
+"Brains - drones" = brains_degs_drones_list))
+euler_queens_lists <- euler(combinations = list("gonads - queens" = gonads_degs_queens_list,
+"Brains - queens" = brains_degs_queens_list))
 ```
-Visualise overlap for genes with drone-biased expression:
+##### Visualise overlap for genes with drone-biased expression:
 ```
-euler_f_plot <- plot(euler_f_lists,
+euler_drones_plot <- plot(euler_drones_lists,
 quantities = TRUE,
 edges = TRUE,
 labels = list(fontsize = 8))
 ## Print to console:
-euler_f_plot
+euler_drones_plot
 ```
 
 ## Save plot to output:
 ```
-ggsave("results/euler_drone_plot.png",
-plot = euler_f_plot,
+ggsave("results/euler_drones_plot.png",
+plot = euler_drones_plot,
 height = 5,
 width = 5)
 ```
 
-TASK:
+##### TASK:
 Visualise overlap for genes with queen-biased expression:
