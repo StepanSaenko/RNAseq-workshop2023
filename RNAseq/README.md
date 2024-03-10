@@ -701,20 +701,23 @@ The last thing to do is save the image to file:
 ggsave("results/euler_all_plot.png",
 plot = euler_all_plot,
 height = 5,
+width = 5)
+
 ```
 
-6. Examine changes per caste:
+## 6. Examine changes per caste:
 Next, we want to look at specific overlap within a submorph.
 
-1) Gonads
-a) drones: For foragedronesrs, we subset the output of DESeq2 to obtain genes that are both significantly expressed (padj < 0.05) and have a bias in terms of expression in drones (log2FoldChange > 0).
+#### 1) Gonads
+##### a) drones:
+For foragedronesrs, we subset the output of DESeq2 to obtain genes that are both significantly expressed (padj < 0.05) and have a bias in terms of expression in drones (log2FoldChange > 0).
 Once we subset the data we want, we extract the gene names and store as an object.
 ```
 gonads_degs_f <- subset(x = deseq_object_results_sig_gonads,
 padj < 0.05 & log2FoldChange > 0) gonads_degs_f_list <- row.names(gonads_degs_f)
 ```
 
-b) queens:
+##### b) queens:
 Same with nurses, we subset the output of DESeq2 to obtain genes that are both significantly expressed
 (padj < 0.05) and have a bias in terms of expression in queens (log2FoldChange < 0).
 Once we subset the data we want, we extract the gene names and store as an object.
@@ -725,10 +728,10 @@ log2FoldChange < 0)
 gonads_degs_n_list <- row.names(gonads_degs_n)
 ```
 
-2) Brains:
+#### 2) Brains:
 task: repeat the above for brains
-
-
+##### a) drones:
+##### b) queens:
 
 
 Check whether caste-biased genes are conserved across tissues.
