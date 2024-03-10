@@ -551,7 +551,8 @@ ggplot(data = deseq_object_results_df) +
 
 Cool - now it looks like a volcano ... plot!    
 
-Lastly, we can store our final plot as an object and save the output to file.  
+Lastly, we can store our final plot as an object and save the output to file.
+We will colour all datapoint red which have an adjusted p-value of <0.01 and log2foldchange>2
 
 ```
 volcano_plot <- ggplot(data = deseq_object_results_df) +
@@ -559,10 +560,11 @@ volcano_plot <- ggplot(data = deseq_object_results_df) +
                  y = -log10(padj)),
              alpha = 0.5) +
   geom_point(data = subset(x = deseq_object_results_df,
-                           padj < 0.01),
+                           padj < 0.01 & abs(log2FoldChange)>2),
              aes(x = log2FoldChange,
                  y = -log10(padj)),
              colour = "red")
+
 
 ## Save image:
 ggsave(filename = "results/volcano_plot_brains.png",
@@ -570,9 +572,14 @@ ggsave(filename = "results/volcano_plot_brains.png",
        height = 5,
        width = 5)
 ```
+## 8. extract and save the list of genes with sign. diff expression and/or log2fold cange
+```
+genes <- subset(x = deseq_object_results_df, padj < 0.01 & abs(log2FoldChange)>2)
+write.table(genes, file='results/genes.brains.tsv', quote=FALSE, sep='\t', col.names = NA)
 
+```
 
-## 8. optional if data are available: Examine expression of candidate genes from the qPCR-based analysis:  
+## 9. optional if data are available: Examine expression of candidate genes from the qPCR-based analysis:  
 The last thing we want to do with the data are check the expression of genes that
 we examined in the qPCR-based practical.  
 Here, we have a list of genes from the NCBI gene database for _vitellogenin_ genes
