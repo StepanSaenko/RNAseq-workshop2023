@@ -10,7 +10,8 @@ setwd('XXXXXX')
 # Load libraries; install from scratch if needed
 libraries <- c("topGO",
                "lintr",
-               "lattice")
+               "lattice",
+              "Rgraphviz")
 for (lib in libraries) {
     if (require(package = lib, character.only = TRUE)) {
         print("Successful")
@@ -114,3 +115,44 @@ for (go_category in c("BP", "MF", "CC")) {
               row.names = FALSE,
               sep       = "\t",
               quote = FALSE)
+ ## write sign terms
+result_weight_output2 <- result_weight_output[which(result_weight_output$weight_fisher<=0.001),]
+#result_weight_output3[which(result_weight_output$weight_fisher_adjusted<=0.05),]
+#save first top 50 ontolgies sorted by adjusted pvalues
+  write.table(x         = result_weight_output2[1:50,],
+              file      = file.path(output_directory,
+                                    paste(go_category,
+                                          "top50.tsv",
+                                          sep = "_")),
+              row.names = FALSE,
+              sep       = "\t",
+              quote = FALSE)
+
+# PLOT the GO hierarchy plot: the enriched GO terms are colored in yellow/red according to significance level
+#BiocManager::install("Rgraphviz")
+pdf(file=file.path(output_directory,paste(go_category,"topGOPlot_fullnames.pdf",sep = "_")), height=12, width=12, paper='special', pointsize=18)
+#showSigOfNodes(my_go_data, score(result_weight_output$weight_fisher), useInfo = "none", sigForAll=FALSE, firstSigNodes=2,.NO.CHAR=50)
+dev.off()
+
+myterms = result_weight_output$GO.ID
+mygenes = genesInTerm(my_go_data, myterms)
+
+var=c()
+for (i in 1:length(myterms))
+{
+myterm=myterms[i]
+mygenesforterm= mygenes[myterm][[1]]
+mygenesforterm=paste(mygenesforterm, collapse=',')
+var[i]=paste("GOTerm",myterm,"genes-",mygenesforterm)
+}
+  write.table(x         = var,
+              file      = file.path(output_directory,
+                                    paste(go_category,
+                                          "genetoGOmapping.txt",
+                                          sep = "_")),
+              row.names = FALSE,
+              sep       = "\t",
+              quote = FALSE)
+
+ 
+}
