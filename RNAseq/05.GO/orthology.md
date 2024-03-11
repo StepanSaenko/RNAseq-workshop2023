@@ -55,4 +55,9 @@ cat $QUERYSPECIES.$REFSPECIES.1v1_orthologs.all.tsv | wc -l
 
 cat $QUERYSPECIES.$REFSPECIES.1v1_orthologs.all.tsv | tabtk cut -r -f1,2 | sort -k1,1 > $REFSPECIES.$QUERYSPECIES.1v1_orthologs.all.tsv
 #ApisMellifera.BombusTerrestris.1v1_orthologs.all.tsv
+
+head ApisMellifera.BombusTerrestris.1v1_orthologs.all.tsv
+0at7399_5       XP_026294641.1
+0at7399_5       XP_026294642.1
+0at7399_5       XP_026294643.1
 ```
