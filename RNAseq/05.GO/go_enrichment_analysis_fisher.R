@@ -114,4 +114,3 @@ for (go_category in c("BP", "MF", "CC")) {
               row.names = FALSE,
               sep       = "\t",
               quote = FALSE)
-}
