@@ -16,26 +16,32 @@ ll $REFERENCEFOLDER/$GTF
 
 ## 2. make genomic index
 ```
-cd /scratch/rnaseq2023/estolle
+cd /scratch/rnaseq2023
 #Generate an index
-kallisto index -i ./amel.transcripts $REFERENCEFOLDER/$TRANSCRIPTS
+kallisto index -i $REFERENCEFOLDER/amel.transcripts $REFERENCEFOLDER/$TRANSCRIPTS
 
 
 ```
 
 ## 3. Kallisto counts for all samples
 ```
+cd /scratch/rnaseq2023/USER
 INPUTFOLDER="/scratch/rnaseq2023/raw.data.apis"
 cp $INPUTFOLDER/PRJNA689223.txt ./
-OUTFOLDER="./2024-03-06.kallisto.output"
-mkdir -p $OUTFOLDER
-CPUs=50
+OUTFOLDER="../kallisto.output"
+#mkdir -p $OUTFOLDER
+CPUs=5
+
+# find your sample
+ls *.fastq
+SAMPLE="XXXXXXXXXXX"
 
 # Kallisto counts for all samples
 ## dry-run
-cat PRJNA689223.txt | parallel -k -j1 "echo ${OUTFOLDER}/{} && mkdir -p ${OUTFOLDER}/{}"
+cat PRJNA689223.txt | grep "$SAMPLE" | parallel -k -j1 "echo ${OUTFOLDER}/{} && mkdir -p ${OUTFOLDER}/{}"
+
 ## kallisto without the --genomebam option
-cat PRJNA689223.txt | parallel -k -j1 "echo {}; kallisto quant -i ./amel.transcripts -l 130 -s 20 -t $CPUs -o ${OUTFOLDER}/{} --gtf ${REFERENCEFOLDER}/${GTF} --plaintext ${INPUTFOLDER}/{}.lite.1_pass_1.fastq ${INPUTFOLDER}/{}.lite.1_pass_2.fastq"
+cat PRJNA689223.txt | grep "$SAMPLE" | parallel -k -j1 "echo {}; kallisto quant -i ${REFERENCEFOLDER}/amel.transcripts -l 130 -s 20 -t $CPUs -o ${OUTFOLDER}/{} --gtf ${REFERENCEFOLDER}/${GTF} --plaintext ${INPUTFOLDER}/{}.lite.1_pass_1.fastq ${INPUTFOLDER}/{}.lite.1_pass_2.fastq"
 
 ```
 
@@ -44,7 +50,7 @@ cat PRJNA689223.txt | parallel -k -j1 "echo {}; kallisto quant -i ./amel.transcr
 OUTFOLDER="./2024-03-06.salmon.output"
 mkdir -p $OUTFOLDER
 CPUs=50
-salmon index --index ./amel.transcripts.salmon --transcripts $REFERENCEFOLDER/$TRANSCRIPTS
+salmon index --index ${REFERENCEFOLDER}/amel.transcripts.salmon --transcripts $REFERENCEFOLDER/$TRANSCRIPTS
 salmon quant --help-reads
 CPUs=30
 
