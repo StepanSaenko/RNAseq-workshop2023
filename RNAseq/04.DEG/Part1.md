@@ -6,7 +6,6 @@
 cd /scratch/rnaseq2023/USER
 cp ../sample.data.short.tsv ./
 cp ../transcript.gene.map.txt ./
-cp ../transcript.gene.map.txt ./
 cp ../go_term_database_output.txt ./
 ```
 
