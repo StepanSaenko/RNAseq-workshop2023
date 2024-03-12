@@ -27,6 +27,7 @@ ll $REFERENCEFOLDER/amel.transcripts
 ## 3. Kallisto counts for all samples
 ```
 cd /scratch/rnaseq2023/USER
+cp ../PRJNA689223.txt .
 INPUTFOLDER="/scratch/rnaseq2023/raw.data.apis"
 cp $INPUTFOLDER/PRJNA689223.txt ./
 OUTFOLDER="kallisto.output"
