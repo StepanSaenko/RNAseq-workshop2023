@@ -1,18 +1,17 @@
 ###This part will create a heatmap with single genes as rows (all samples as columns)
 ```
-### needed libraries:
+### needed libraries (dplyr for the filterig step, gplots includes dendrogramtoplot / heatmap2):
 library(dplyr)
 library(gplots)
 library(RColorBrewer)
 
 ### creating a dataframe from abundances of all samples
-
-### if you have an external table with normalised readcounts, selected for e.g. p>0.05 you can load it with:
+### e.g. if you have an external table with normalised readcounts, selected for e.g. p>0.05 you can load it with:
 ### input <- read.delim('abundance_table.txt', sep='\t', header=TRUE)
 
 ### we will use our data from previous steps:
-### Part1 step 5 created "txi_counts"
-### 
+### - Part1 step 5 created "txi_counts"
+### - Part2, step 8 created "genes" (with p>0.01 and at least 2-fold change)
 ### thereby selecting only those genes that are differentially expressed between queen / worker brains
 ### 
 
