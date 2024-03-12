@@ -11,7 +11,7 @@ TRANSCRIPTS="rna.fna"
 GFF="GCF_003254395.2_Amel_HAv3.1_genomic.gff"
 
 ll $REFERENCEFOLDER/$GTF
-/scratch/rnaseq2023/Apis.mellifera.reference.genome/GCF_003254395.2_Amel_HAv3.1_genomic.gtf
+# /scratch/rnaseq2023/Apis.mellifera.reference.genome/GCF_003254395.2_Amel_HAv3.1_genomic.gtf
 ```
 
 ## 2. make genomic index
