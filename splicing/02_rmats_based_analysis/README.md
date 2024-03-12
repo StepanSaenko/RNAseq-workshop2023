@@ -10,14 +10,14 @@ A) Brains:
 
 ```
 python src/rmats_turbo_v4_1_2/rmats.py \
---b1 bam_list_male_gonads.txt  \
---b2 bam_list_queen_gonads.txt  \
+--b1 bam_list_male_brains.txt  \
+--b2 bam_list_queen_brains.txt  \
 --readLength 150  \
 --variable-read-length  \
 --gtf /scratch/rnaseq2023/Apis.mellifera.reference.genome/GCF_003254395.2_Amel_HAv3.1_genomic.gtf  \
 --nthread 20  \
---od results_gonad_comp/  \
---tmp tmp_gonads  
+--od results_brain_comp/  \
+--tmp tmp_brains  
 ```
 
 B) Gonads:  
