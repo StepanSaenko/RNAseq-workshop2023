@@ -4,7 +4,7 @@
 - Haploid and Sexual Selection Shape the Rate of Evolution of Genes across the Honey Bee (Apis mellifera L.) Genome
 - PRJNA689223
 - [DOI](https://doi.org/10.1093/gbe/evac063)
-- [PAPERLINK]([https://doi.org/10.1093/gbe/evac063](https://academic.oup.com/gbe/article/14/6/evac063/6584681))
+- [PAPERLINK](https://doi.org/10.1093/gbe/evac063](https://academic.oup.com/gbe/article/14/6/evac063/6584681)
 - [NCBI](https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=4&WebEnv=MCID_65ece0921f4e9f73e3a78866&o=acc_s%3Aa)
 
 ## 1. prepare the data download
