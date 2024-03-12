@@ -29,8 +29,8 @@ ll $REFERENCEFOLDER/amel.transcripts
 cd /scratch/rnaseq2023/USER
 INPUTFOLDER="/scratch/rnaseq2023/raw.data.apis"
 cp $INPUTFOLDER/PRJNA689223.txt ./
-OUTFOLDER="../kallisto.output"
-#mkdir -p $OUTFOLDER
+OUTFOLDER="kallisto.output"
+mkdir -p $OUTFOLDER
 CPUs=5
 
 # find your sample
