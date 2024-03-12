@@ -24,10 +24,6 @@ and visualising plots.
 
 To load the required packages, we use the 'library()' function:
 ```
-# start R
-
-R
-
 # load packages
 library(tximport)
 library(DESeq2)
