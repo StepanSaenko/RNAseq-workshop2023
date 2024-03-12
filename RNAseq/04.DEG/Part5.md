@@ -1,18 +1,21 @@
 ###This part will create a heatmap with single genes as rows (all samples as columns)
 ```
-
+### needed libraries:
 library(dplyr)
 library(gplots)
 library(RColorBrewer)
 
 ### creating a dataframe from abundances of all samples
+
+### if you have an external table with normalised readcounts, selected for e.g. p>0.05 you can load it with:
+### input <- read.delim('abundance_table.txt', sep='\t', header=TRUE)
+
+### we will use our data from previous steps: 
 ### thereby selecting only those genes that are differentially expressed between queen / worker brains
 
 gene_names <- rownames(genes)
 DF = data.frame(txi_counts$counts)
 DF.selected <- DF %>% filter(row.names(DF) %in% gene_names)
-
-### input <- read.delim('abundance_table.txt', sep='\t', header=TRUE)  ### table with normalised readcounts / DESEq2 output, genes diff. expressen, p >0.01 o.ä.
 
 input <- DF.selected
 mat_input <- data.matrix(input)
@@ -23,7 +26,8 @@ rownames(mat_input) <- rownames(input)
     linput <- log2(mat_input)
     scale <- "none"
     linput[linput=="-Inf"] <- 0
-srtCol <- 30
+
+    srtCol <- 30
     rlabs <- NULL
     clabs <- NULL
     label_margins <- c(8,8)
@@ -41,7 +45,7 @@ srtCol <- 30
 ncolors <- 11
     colused <- brewer.pal(ncolors, "BrBG")
 
-png(file='heatmap.png', res=240, height=2000, width=2000)  
+png(file='heatmap_genewise.png', res=240, height=2000, width=2000)  
 heatmap.2(linput, dendrogram=dendrogramtoplot, Colv=reorder_cols, Rowv=reorder_rows,
     distfun=dist_fun, hclustfun=hclust_fun, scale = scale, labRow = rlabs, labCol = clabs,
     col=colused, trace="none", density.info = "none", margins=label_margins,
