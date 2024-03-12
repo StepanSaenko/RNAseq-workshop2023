@@ -1,6 +1,14 @@
-#RNAseq analysis with kallisto and DeSeq2
+# RNAseq workshops 20223/24
+## Day 1: RNAseq --> differential gene expression analysis
 authors: Eckart Stolle (LIB Bonn) & Joe Colgan (U Mainz)
-Transcriptomic analysis of Apis mellifera
+
+### Slater 2022
+- Haploid and Sexual Selection Shape the Rate of Evolution of Genes across the Honey Bee (Apis mellifera L.) Genome
+- PRJNA689223
+- [DOI](https://doi.org/10.1093/gbe/evac063)
+- [PAPERLINK](https://doi.org/10.1093/gbe/evac063](https://academic.oup.com/gbe/article/14/6/evac063/6584681)
+- [NCBI](https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=4&WebEnv=MCID_65ece0921f4e9f73e3a78866&o=acc_s%3Aa)
+- 
 
 ## 1. Install libraries:  
 For the purpose of this tutorial, there are some packages, which each of you
