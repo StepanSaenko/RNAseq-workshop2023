@@ -1,0 +1,25 @@
+---
+author: 'Put your name here'
+title: '**Alternative-based splicing analysis of _Apis mellifera_ queens and drones - Part 3: Overlap**'
+output:
+  html_document: default
+  pdf_document: 
+    toc: true
+fig_width: 5
+fig_height: 10
+fontsize: 20pt 
+---
+
+## Introduction  
+The scripts today are written in RMarkdown which allows you to write text sections, which
+are not run as code while you can specify text that will be run by code by writing in
+ specific sections like this one:  
+ 
+```{r, message = FALSE}
+print("You can run code here like you would in a normal R script")
+## If you want to write things that are not run as code, you have to start the 
+## sentence with a hash/pound ('#') symbol
+ 
+```
+
+We can then write sections again that we don't want to run as code.  
