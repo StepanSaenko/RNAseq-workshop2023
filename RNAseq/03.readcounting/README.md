@@ -44,6 +44,10 @@ cat PRJNA689223.txt | grep "$SAMPLE" | parallel -k -j1 "echo ${OUTFOLDER}/{} && 
 ## kallisto without the --genomebam option
 cat PRJNA689223.txt | grep "$SAMPLE" | parallel -k -j1 "echo {}; kallisto quant -i ${REFERENCEFOLDER}/amel.transcripts -l 130 -s 20 -t $CPUs -o ${OUTFOLDER}/{} --gtf ${REFERENCEFOLDER}/${GTF} --plaintext ${INPUTFOLDER}/{}.lite.1_pass_1.fastq ${INPUTFOLDER}/{}.lite.1_pass_2.fastq"
 
+cd ${OUTFOLDER}/{}
+ll
+head abundance.tsv
+
 ```
 
 ## 4. alternatively, salmon can be used
