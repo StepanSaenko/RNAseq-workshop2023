@@ -1,15 +1,19 @@
 # this part will create a heatmap with single genes as rows (all samples as columns)
 '''
+
 library(dplyr)
 library(gplots)
 library(RColorBrewer)
+
 '''
 ### creating a dataframe from abundances of all samples
 ### thereby selecting only those genes that are differentially expressed between queen / worker brains
 '''
+
 gene_names <- rownames(genes)
 DF = data.frame(txi_counts$counts)
 DF.selected <- DF %>% filter(row.names(DF) %in% gene_names)
+
 '''
 ### input <- read.delim('abundance_table.txt', sep='\t', header=TRUE)  ### table with normalised readcounts / DESEq2 output, genes diff. expressen, p >0.01 o.ä.
 '''
