@@ -18,7 +18,8 @@ ll $REFERENCEFOLDER/$GTF
 ```
 cd /scratch/rnaseq2023
 #Generate an index
-kallisto index -i $REFERENCEFOLDER/amel.transcripts $REFERENCEFOLDER/$TRANSCRIPTS
+# run already: kallisto index -i $REFERENCEFOLDER/amel.transcripts $REFERENCEFOLDER/$TRANSCRIPTS
+ll $REFERENCEFOLDER/amel.transcripts
 
 
 ```
