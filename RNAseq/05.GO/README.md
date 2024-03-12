@@ -6,12 +6,9 @@
 3. fetch GO terms for the ENSEMBL/BioMART species and it's Drosophila orthologs
 4. create genelist subsets
 5. enrichment (TopGO)
-6. visualitation (GOfigure)
+6. visualization (GOfigure)
 
-### ATTENTION: for GO Figure we need to try if we quickly can get cona running
-export PATH="/opt/anaconda3-2023.07-2-Linux-x86_64/bin:$PATH
-conda init
-conda activate /home/ek/.conda/envs/R1
+
 
 
 
@@ -138,6 +135,12 @@ Rscript go_enrichment_analysis_fisher.$ANALYSIS.R
 ll $OUTDIR/go_term_output_50_fisher/BP_top50.tsv
 ll $OUTDIR/go_term_output_50_fisher/CC_top50.tsv
 ll $OUTDIR/go_term_output_50_fisher/MF_top50.tsv
+```
+### ATTENTION: for GO Figure we need to try if we quickly can get cona running
+```
+export PATH="/opt/anaconda3-2023.07-2-Linux-x86_64/bin:$PATH
+conda init
+conda activate /home/ek/.conda/envs/R1
 ```
 
 ## 5. visualize results with [GOfigure](https://gitlab.com/evogenlab/GO-Figure)
