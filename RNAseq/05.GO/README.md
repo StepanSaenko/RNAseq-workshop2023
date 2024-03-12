@@ -42,6 +42,8 @@ cat $REFERENCEFOLDER/$TRANSCRIPTS | grep ">" | tr -d '>' | cut -d" " -f1 > Apis.
 
 ###################################################
 ### GO term database
+cp /home/ek/go_term_conversion.R ./
+chmod 755 go_term_conversion.R
 #1. Download GO terms from Enembl BioMart 
 #https://metazoa.ensembl.org/biomart/martview/656f87cd558a5f254f02906f9621a2b2 
 #awk '$3 > 0' mart_export\(1\).txt | tail -n +2 | cut -f 1,3 | sort | uniq | grep 'LOC' >  go_term_database_input.txt
