@@ -1,4 +1,4 @@
-# RNAseq workshops 20223/24
+# RNAseq workshops 2023/24
 ## Day 1: RNAseq --> differential gene expression analysis
 authors: Eckart Stolle (LIB Bonn) & Joe Colgan (U Mainz)
 
