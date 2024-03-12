@@ -14,213 +14,170 @@
 
 ## 3. create GO Term lists via BioMaRT
 ```
-cd /scratch/ek/comparative/2023phylogenyB
-cd orthologs.apis.broccoli
-QUERYSPECIES="BombusTerrestris"
-REFSPECIES="ApisMellifera"
+#install.packages('https://cran.r-project.org/src/contrib/Archive/dbplyr/dbplyr_2.3.4.tar.gz', repos = NULL)
 
-# use general Rscript and modify accodrding to the reference species (available: BTER, BIMP, AMEL, NVIT)
-INPUTFILE="$QUERYSPECIES.$REFSPECIES.1v1_orthologs.all.tsv"
+REFERENCEFOLDER="/scratch/rnaseq2023/Apis.mellifera.reference.genome"
+REF="GCF_003254395.2_Amel_HAv3.1_genomic.fna"
+GTF="GCF_003254395.2_Amel_HAv3.1_genomic.gtf"
+GTF="GCF_003254395.2_Amel_HAv3.1_genomic.gff"
+CDS="cds_from_genomic.fna"
+TRANSCRIPTS="rna.fna"
+PROTEIN="protein.faa"
+
+###################################################
+#make folder for GO term analyses and copy our results files over
+mkdir go
+cp results/genes.brains.tsv results/genes.gonads.tsv go/
+cd go
+
+###################################################
+# make a list of Protein accessions from Amel Reference protein.faa
+cat $REFERENCEFOLDER/$PROTEIN | grep ">" | tr -d '>' | cut -d" " -f1 > Apis.mellifera.proteinnames.txt
+
+cat $REFERENCEFOLDER/$GTF | awk ' $3 == "transcript" ' | cut -f9 | cut -d";" -f1-6 | sed "s/ID=rna-//g" | sed "s/Parent=gene-//g" | sed "s/Dbxref=GeneID://g" | sed "s/gbkey=//g" | sed "s/gene=//g" | sed "s/,Genbank:/;/g" | sed "s/,BEEBASE:.*;Name=/;/g" | sed "s/Name=//g" | tr ';' '\t' > Apis.mellifera.transcript-LOC-geneID-data.txt
+cat Apis.mellifera.transcript-LOC-geneID-data.txt | cut -f1 > Apis.mellifera.transcriptIDsfromGTF.txt
+
+cat $REFERENCEFOLDER/$TRANSCRIPTS | grep ">" | tr -d '>' | cut -d" " -f1 > Apis.mellifera.transcriptnames.txt
+
+
+###################################################
+### GO term database
+#Download GO terms from Enembl BioMart 
+#https://metazoa.ensembl.org/biomart/martview/656f87cd558a5f254f02906f9621a2b2 
+#awk '$3 > 0' mart_export\(1\).txt | tail -n +2 | cut -f 1,3 | sort | uniq | grep 'LOC' >  go_term_database_input.txt
+#Rscript go_term_conversion.R go_term_database_input.txt go_term_database_output.txt
+
+#GO terms from NCBI
+cat $REFERENCEFOLDER/GCF_003254395.2_Amel_HAv3.1_gene_ontology.gaf | grep -v "^!" | cut -f3,5 > Apis.mellifera.ncbi.gene-ontologies.tsv
+Rscript go_term_conversion.R Apis.mellifera.ncbi.gene-ontologies.tsv Apis.mellifera.ncbi.gene-ontologies.db.txt
+
+
+###################################################
+
+# create inputfile (query-protein_id ref_prot_id)
+paste Apis.mellifera.proteinnames.txt Apis.mellifera.proteinnames.txt > Apis.mellifera.proteinnames2.txt
+
+# fetch a generalized R script and set it to be used for Apis mellifera GO terms
+INPUTFILE="$PWD/Apis.mellifera.proteinnames2.txt"
+#INPUTFILE="$PWD/ApisMellifera.BombusTerrestris.1v1_orthologs.all.tsv"
+
 cat ~/scripts/go_term_extraction.R | sed -r "s#XXXXXX#$INPUTFILE#g" | sed "s/##AMEL //g" > go_term_extraction.Amel.R
 chmod 755 go_term_extraction.Amel.R
 
 #Run R script
 Rscript go_term_extraction.Amel.R
 
-#output 
-ll $INPUTFILE.GO.Amel-Dmel.raw.txt
+# if you get this error: "Error in `collect()`: ! Failed to collect lazy table" its related to an incompatibility between dbplyr and BiocFileCache, upgrade to newer BiocManager: BiocManager::install(version = "3.18")
+# if your R is too old, you can either use conda to make an env wih newer R or try downgrade dbplyr: install.packages('https://cran.r-project.org/src/contrib/Archive/dbplyr/dbplyr_2.3.4.tar.gz', repos = NULL)
 
-#optional run again using Bter,Bimp,Nvit
-# need to run orthology for this
-cat ~/scripts/go_term_extraction.R | sed -r "s#XXXXXX#$INPUTFILE#g" | sed "s/##BTER //g" > go_term_extraction.Bter.R
-chmod 755 go_term_extraction.Bter.R
-Rscript go_term_extraction.Bter.R
-ll $INPUTFILE.GO.Bter-Dmel.raw.txt
-cat ~/scripts/go_term_extraction.R | sed -r "s#XXXXXX#$INPUTFILE#g" | sed "s/##NVIT //g" > go_term_extraction.Nvit.R
-chmod 755 go_term_extraction.Nvit.R
-Rscript go_term_extraction.Nvit.R
-ll $INPUTFILE.GO.Nvit-Dmel.raw.txt
-cat ~/scripts/go_term_extraction.R | sed -r "s#XXXXXX#$INPUTFILE#g" | sed "s/##BIMP //g" > go_term_extraction.Bimp.R
-chmod 755 go_term_extraction.Bimp.R
-Rscript go_term_extraction.Bimp.R
-ll $INPUTFILE.GO.Bimp-Dmel.raw.txt
+#output when running with protein list as input (NCBI protein IDs)
+head $INPUTFILE.GO.Amel-Dmel.raw.txt
+XP_016768898.1  GO:0046872
+XP_016768898.1  GO:0016020
+XP_016768898.1  GO:0016485
+
+# Poblem: Protein IDs are not mapped to LOCUS IDs (genes)
+# Above, we made a GO TErm database from Ensembl WebDOWNLOAD or NCBI REFSEQ (FTP): Apis.mellifera.ncbi.gene-ontologies.db.txt
 
 
-# merge GO term lists (from above and/or additional sources)
+# optional: run more ortholog lists or retreieve more GO term lists
+
+# then merge possible multiple GO term lists
 cat *.GO.*.raw.txt | grep -v "Uncharacterized" > go.raw.tsv
-Rscript ~/scripts/go_term_conversion.R go.raw.tsv go.converted.tsv
+
+cp /home/ek/scripts/go_term_conversion.R .
+chmod 755 go_term_conversion.R
+Rscript ./go_term_conversion.R go.raw.tsv go.converted.tsv
+
+head go.converted.tsv
+head go.converted.tsv
+NP_001010975.1 GO:0005743,GO:0055085
+NP_001011563.1 GO:0005576,GO:0005615,GO:0019953
+
 cat go.converted.tsv | wc -l
-#3744
+#13897
+cat Apis.mellifera.ncbi.gene-ontologies.db.txt | wc -l
+#7963
+cat go_term_database_output.txt | wc -l
+#6932
 
-cat go.converted.tsv > Busco.Apis.GOterms.tsv
+#cat go.converted.tsv | sed "s/ /\t/g" > Apis.mellifera.GOterms.tsv
+cat Apis.mellifera.ncbi.gene-ontologies.db.txt | sed "s/ /\t/g" > Apis.mellifera.GOterms.tsv
+#cat go_term_database_output.txt | sed "s/ /\t/g" > Apis.mellifera.GOterms.tsv
+
 ```
 
-## 4. collect files
+## 4. TopGO run TopGo enrichment analysis (change node size to gauge strictness)
 ```
-cd /scratch/ek/comparative/2023phylogenyB
+GOTERMS="$PWD/Apis.mellifera.GOterms.tsv"
+mkdir -p genes_of_interest
+cat genes.brains.tsv | cut -f1 > genes_of_interest/brains.txt
+cat genes.gonads.tsv | cut -f1 > genes_of_interest/gonads.txt
+GENELIST1="./genes_of_interest/brains.txt"
+GENELIST2="./genes_of_interest/gonads.txt"
 
-mkdir -p ./08.hyphy.relax.GO/genes_of_interest
+grep -w -f $GENELIST1 $GOTERMS | sed "s/ /\t/g" > ./genes_of_interest/brains.go.tsv
+grep -w -f $GENELIST2 $GOTERMS | sed "s/ /\t/g" > ./genes_of_interest/gonads.go.tsv
 
-GOTERMS="$PWD/orthologs.apis.broccoli/Busco.Apis.GOterms.tsv"
-GENES1="./07.hyphy.relax.completed.genenames.nochange.txt"
-GENES2="./07.hyphy.relax.completed.genenames.intensification.txt"
-GENES3="./07.hyphy.relax.completed.genenames.relaxation.txt"
 
-cp $GOTERMS ./08.hyphy.relax.GO
-sed -i "s/ /\t/g" ./08.hyphy.relax.GO/Busco.Apis.GOterms.tsv
-cp $GENES1 $GENES2 $GENES3 ./08.hyphy.relax.GO/genes_of_interest
-grep -w -f $GENES1 $GOTERMS | sed "s/ /\t/g" > ./08.hyphy.relax.GO/genes_of_interest/nohange.go.tsv
-grep -w -f $GENES2 $GOTERMS | sed "s/ /\t/g" > ./08.hyphy.relax.GO/genes_of_interest/intesified.go.tsv
-grep -w -f $GENES3 $GOTERMS | sed "s/ /\t/g" > ./08.hyphy.relax.GO/genes_of_interest/relaxed.go.tsv
-```
-
-## 5. run TopGo enrichment analysis (change node size to gauge strictness)
-
-### Activate env
-```
-conda activate R1
-cd /scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO
-```
-
-### 1. intensification
-```
-ANALYSIS="Meliponini-VS-Apidae.intensification"
-INDIR="/scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO"
-GENEUNIVERSEgoTERMS="Busco.Apis.GOterms.tsv"
-TESTGENESET="07.hyphy.relax.completed.genenames.intensification.txt"
+## TopGo
+ANALYSIS="brains"
+INDIR="$PWD"
+GENEUNIVERSEgoTERMS="$GOTERMS"
+TESTGENESET="brains.txt"
 TESTGENESETDIR="genes_of_interest"
-OUTDIR="results.$ANALYSIS"
+OUTDIR="results.topGO.$ANALYSIS"
 mkdir -p $OUTDIR
-cat ~/scripts/go_enrichment_analysis_fisher.R | sed "s,XXXXXX,$INDIR,g ; s,YYYYYY,$GENEUNIVERSEgoTERMS,g ; s,ZZZZZZ,$TESTGENESET,g ; s,FFFFFF,$TESTGENESETDIR,g ; s,OOOOOO,$OUTDIR,g" > go_enrichment_analysis_fisher.$ANALYSIS.R
-Rscript go_enrichment_analysis_fisher.$ANALYSIS.R
-```
 
-### 2. no change
-```
-ANALYSIS="Meliponini-VS-Apidae.nochange"
-INDIR="/scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO"
-GENEUNIVERSEgoTERMS="Busco.Apis.GOterms.tsv"
-TESTGENESET="07.hyphy.relax.completed.genenames.nochange.txt"
-TESTGENESETDIR="genes_of_interest"
-OUTDIR="results.$ANALYSIS"
-mkdir -p $OUTDIR
 cat ~/scripts/go_enrichment_analysis_fisher.R | sed "s,XXXXXX,$INDIR,g ; s,YYYYYY,$GENEUNIVERSEgoTERMS,g ; s,ZZZZZZ,$TESTGENESET,g ; s,FFFFFF,$TESTGENESETDIR,g ; s,OOOOOO,$OUTDIR,g" > go_enrichment_analysis_fisher.$ANALYSIS.R
-Rscript go_enrichment_analysis_fisher.$ANALYSIS.R
-```
 
-### 3. relaxation
-```
-ANALYSIS="Meliponini-VS-Apidae.relaxation"
-INDIR="/scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO"
-GENEUNIVERSEgoTERMS="Busco.Apis.GOterms.tsv"
-TESTGENESET="07.hyphy.relax.completed.genenames.relaxation.txt"
-TESTGENESETDIR="genes_of_interest"
-OUTDIR="results.$ANALYSIS"
-mkdir -p $OUTDIR
-cat ~/scripts/go_enrichment_analysis_fisher.R | sed "s,XXXXXX,$INDIR,g ; s,YYYYYY,$GENEUNIVERSEgoTERMS,g ; s,ZZZZZZ,$TESTGENESET,g ; s,FFFFFF,$TESTGENESETDIR,g ; s,OOOOOO,$OUTDIR,g" > go_enrichment_analysis_fisher.$ANALYSIS.R
 Rscript go_enrichment_analysis_fisher.$ANALYSIS.R
-```
 
-### results
-```
-$OUTFOLDER/go_term_output_50_fisher/BP_raw.tsv
-$OUTFOLDER/go_term_output_50_fisher/CC_raw.tsv
-$OUTFOLDER/go_term_output_50_fisher/MF_raw.tsv
+## results
+ll $OUTDIR/go_term_output_50_fisher/BP_top50.tsv
+ll $OUTDIR/go_term_output_50_fisher/CC_top50.tsv
+ll $OUTDIR/go_term_output_50_fisher/MF_top50.tsv
 ```
 
 ## 5. visualize results with [GOfigure](https://gitlab.com/evogenlab/GO-Figure)
 ```
 ######
 gofigure.py --help
-gofigure.py -i input_file.tsv -o out_directory
+#gofigure.py -i input_file.tsv -o out_directory
 
 ### TopGO outputs
-ANALYSIS="Meliponini-VS-Apidae.intensification"
-OUTDIR="results.$ANALYSIS"
-ANALYSIS="Meliponini-VS-Apidae.nochange"
-OUTDIR="results.$ANALYSIS"
-ANALYSIS="Meliponini-VS-Apidae.relaxation"
-OUTDIR="results.$ANALYSIS"
+ANALYSIS="brains"
+INDIR="$PWD"
+OUTDIR="results.topGO.$ANALYSIS"
 
-$OUTFOLDER/go_term_output_50_fisher/BP_raw.tsv
-$OUTFOLDER/go_term_output_50_fisher/CC_raw.tsv
-$OUTFOLDER/go_term_output_50_fisher/MF_raw.tsv
 
-/scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO/results.Meliponini-VS-Apidae.intensification/go_term_output_50_fisher/BP_raw.tsv
-/scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO/results.Meliponini-VS-Apidae.intensification/go_term_output_50_fisher/CC_raw.tsv
-/scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO/results.Meliponini-VS-Apidae.intensification/go_term_output_50_fisher/MF_raw.tsv
+$OUTDIR/go_term_output_50_fisher/BP_top50.tsv
+$OUTDIR/go_term_output_50_fisher/CC_top50.tsv
+$OUTDIR/go_term_output_50_fisher/MF_top50.tsv
 
-conda activate R1
-cd /scratch/ek/comparative/2023phylogenyB/08.hyphy.relax.GO
+conda activate R1 (contains GOfigure)
 
-ANALYSIS="Meliponini-VS-Apidae.intensification"
-OUTDIR="results.$ANALYSIS"
-ll $OUTDIR/go_term_output_50_fisher/*_raw.tsv
+
 GO_CATEGORY1="BP"
 GO_CATEGORY2="CC"
 GO_CATEGORY2="MF"
 
-cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.1.tsv
+#plot single categoy
+#cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.1.tsv
+#
+#N=$(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.tsv | tail -n+2 | wc -l)
+#echo $N
+#paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.formatted.1.tsv
+#gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_top50.formatted.1.tsv -o $OUTDIR
 
-N=$(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | tail -n+2 | wc -l)
+
+#let gofigure plot all
+N=$(cat $OUTDIR/go_term_output_50_fisher/*_top50.tsv | tail -n+2 | wc -l)
 echo $N
 #K=$(echo $N-1 | bc -l)
-#550
-paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.1.tsv
-gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.1.tsv -o $OUTDIR
 
-N=$(cat $OUTDIR/go_term_output_50_fisher/*_raw.tsv | tail -n+2 | wc -l)
-echo $N
-#K=$(echo $N-1 | bc -l)
-#550
-paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/*_raw.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/all_raw.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/all_raw.formatted.1.tsv
-gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/all_raw.formatted.1.tsv -o $OUTDIR
+paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/*_top50.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/all_top50.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/all_top50.formatted.1.tsv
+gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/all_top50.formatted.1.tsv -o $OUTDIR
 
-
-ANALYSIS="Meliponini-VS-Apidae.nochange"
-OUTDIR="results.$ANALYSIS"
-ll $OUTDIR/go_term_output_50_fisher/*_raw.tsv
-GO_CATEGORY1="BP"
-GO_CATEGORY2="CC"
-GO_CATEGORY2="MF"
-
-cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.1.tsv
-
-N=$(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | tail -n+2 | wc -l)
-echo $N
-#K=$(echo $N-1 | bc -l)
-#550
-paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.1.tsv
-gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.1.tsv -o $OUTDIR
-
-N=$(cat $OUTDIR/go_term_output_50_fisher/*_raw.tsv | tail -n+2 | wc -l)
-echo $N
-#K=$(echo $N-1 | bc -l)
-#550
-paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/*_raw.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/all_raw.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/all_raw.formatted.1.tsv
-gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/all_raw.formatted.1.tsv -o $OUTDIR
-
-
-ANALYSIS="Meliponini-VS-Apidae.relaxation"
-OUTDIR="results.$ANALYSIS"
-ll $OUTDIR/go_term_output_50_fisher/*_raw.tsv
-GO_CATEGORY1="BP"
-GO_CATEGORY2="CC"
-GO_CATEGORY2="MF"
-
-cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.1.tsv
-
-N=$(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | tail -n+2 | wc -l)
-echo $N
-#K=$(echo $N-1 | bc -l)
-#550
-paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.1.tsv
-gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/${GO_CATEGORY1}_raw.formatted.1.tsv -o $OUTDIR
-
-N=$(cat $OUTDIR/go_term_output_50_fisher/*_raw.tsv | tail -n+2 | wc -l)
-echo $N
-#K=$(echo $N-1 | bc -l)
-#550
-paste <(seq 1 $N) <(cat $OUTDIR/go_term_output_50_fisher/*_raw.tsv | tail -n+2) | tee $OUTDIR/go_term_output_50_fisher/all_raw.formatted.tsv | cut -f1-7 > $OUTDIR/go_term_output_50_fisher/all_raw.formatted.1.tsv
 gofigure.py -j topgo -i $OUTDIR/go_term_output_50_fisher/all_raw.formatted.1.tsv -o $OUTDIR
 
