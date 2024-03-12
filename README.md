@@ -30,4 +30,6 @@ install.packages(c("HiClimR","igraph"))
 library(devtools)
 install_github("deisygysi/wTO")
 devtools::install_github('RfastOfficial/Rfast')
+
+install.packages("gplots")
 ```
