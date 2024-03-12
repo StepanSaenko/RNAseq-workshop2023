@@ -1,14 +1,19 @@
 # Part1
-## 1. install packages
+## 1. copy some files
 ```
-# R packages: see main README, they SHOULD be all centrally installed already, so you do not need to install it here
-
 cd /scratch/rnaseq2023/USER
 cp ../sample.data.short.tsv ./
 cp ../transcript.gene.map.txt ./
 cp ../go_term_database_output.txt ./
 ```
+## start R
+```
+# start R (optionally install packages)
 
+R
+
+# R packages: see main README, they SHOULD be all centrally installed already, so you do not need to install it here
+```
 ## 2. Load libraries:
 Next, we load packages (also called _libraries_) that can be used by R to analyse your data.  
 These are packages that contain *functions* written by other researchers in R 
