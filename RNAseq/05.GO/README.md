@@ -42,12 +42,12 @@ cat $REFERENCEFOLDER/$TRANSCRIPTS | grep ">" | tr -d '>' | cut -d" " -f1 > Apis.
 
 ###################################################
 ### GO term database
-#Download GO terms from Enembl BioMart 
+#1. Download GO terms from Enembl BioMart 
 #https://metazoa.ensembl.org/biomart/martview/656f87cd558a5f254f02906f9621a2b2 
 #awk '$3 > 0' mart_export\(1\).txt | tail -n +2 | cut -f 1,3 | sort | uniq | grep 'LOC' >  go_term_database_input.txt
 #Rscript go_term_conversion.R go_term_database_input.txt go_term_database_output.txt
 
-#GO terms from NCBI
+#2. GO terms from NCBI
 cat $REFERENCEFOLDER/GCF_003254395.2_Amel_HAv3.1_gene_ontology.gaf | grep -v "^!" | cut -f3,5 > Apis.mellifera.ncbi.gene-ontologies.tsv
 Rscript go_term_conversion.R Apis.mellifera.ncbi.gene-ontologies.tsv Apis.mellifera.ncbi.gene-ontologies.db.txt
 
@@ -59,9 +59,8 @@ paste Apis.mellifera.proteinnames.txt Apis.mellifera.proteinnames.txt > Apis.mel
 
 # fetch a generalized R script and set it to be used for Apis mellifera GO terms
 INPUTFILE="$PWD/Apis.mellifera.proteinnames2.txt"
-#INPUTFILE="$PWD/ApisMellifera.BombusTerrestris.1v1_orthologs.all.tsv"
 
-cat ~/scripts/go_term_extraction.R | sed -r "s#XXXXXX#$INPUTFILE#g" | sed "s/##AMEL //g" > go_term_extraction.Amel.R
+cat /home/ek/scripts/go_term_extraction.R | sed -r "s#XXXXXX#$INPUTFILE#g" | sed "s/##AMEL //g" > go_term_extraction.Amel.R
 chmod 755 go_term_extraction.Amel.R
 
 #Run R script
@@ -72,9 +71,9 @@ Rscript go_term_extraction.Amel.R
 
 #output when running with protein list as input (NCBI protein IDs)
 head $INPUTFILE.GO.Amel-Dmel.raw.txt
-XP_016768898.1  GO:0046872
-XP_016768898.1  GO:0016020
-XP_016768898.1  GO:0016485
+#XP_016768898.1  GO:0046872
+#XP_016768898.1  GO:0016020
+#XP_016768898.1  GO:0016485
 
 # Poblem: Protein IDs are not mapped to LOCUS IDs (genes)
 # Above, we made a GO TErm database from Ensembl WebDOWNLOAD or NCBI REFSEQ (FTP): Apis.mellifera.ncbi.gene-ontologies.db.txt
@@ -91,19 +90,18 @@ Rscript ./go_term_conversion.R go.raw.tsv go.converted.tsv
 
 head go.converted.tsv
 head go.converted.tsv
-NP_001010975.1 GO:0005743,GO:0055085
-NP_001011563.1 GO:0005576,GO:0005615,GO:0019953
+#NP_001010975.1 GO:0005743,GO:0055085
+#NP_001011563.1 GO:0005576,GO:0005615,GO:0019953
 
 cat go.converted.tsv | wc -l
-#13897
+#13897 #more GO terms, but mapping Protein IDs to Locus IDs needs to be done for this to be used
 cat Apis.mellifera.ncbi.gene-ontologies.db.txt | wc -l
 #7963
 cat go_term_database_output.txt | wc -l
 #6932
 
-#cat go.converted.tsv | sed "s/ /\t/g" > Apis.mellifera.GOterms.tsv
 cat Apis.mellifera.ncbi.gene-ontologies.db.txt | sed "s/ /\t/g" > Apis.mellifera.GOterms.tsv
-#cat go_term_database_output.txt | sed "s/ /\t/g" > Apis.mellifera.GOterms.tsv
+
 
 ```
 
