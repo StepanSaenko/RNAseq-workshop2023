@@ -1,5 +1,15 @@
 # Part1
 ## 1. install packages
+```
+# R packages: see main README, they SHOULD be all centrally installed already, so you do not need to install it here
+
+cd /scratch/rnaseq2023/USER
+cp ../sample.data.short.tsv ./
+cp ../transcript.gene.map.txt ./
+cp ../transcript.gene.map.txt ./
+cp ../go_term_database_output.txt ./
+```
+
 ## 2. Load libraries:
 Next, we load packages (also called _libraries_) that can be used by R to analyse your data.  
 These are packages that contain *functions* written by other researchers in R 
@@ -10,6 +20,10 @@ and visualising plots.
 
 To load the required packages, we use the 'library()' function:
 ```
+# start R
+
+R
+
 # load packages
 library(tximport)
 library(DESeq2)
