@@ -50,14 +50,19 @@ ncolors <- 11
 ```
 if you dont want to save the figure as file you can omit the png() and dev.off() lines
 ```
-png(file='results/heatmap_genewise.png', res=240, height=2000, width=2000)
 
-heatmap.2(linput, dendrogram=dendrogramtoplot, Colv=reorder_cols, Rowv=reorder_rows,
+heatmapplot <- heatmap.2(linput, dendrogram=dendrogramtoplot, Colv=reorder_cols, Rowv=reorder_rows,
     distfun=dist_fun, hclustfun=hclust_fun, scale = scale, labRow = rlabs, labCol = clabs,
     col=colused, trace="none", density.info = "none", margins=label_margins,
     main = '', cexCol=0.8, cexRow=0.8, srtCol=srtCol,
     keysize=3, key.xlab='', key.title='', key.par=key_margins,
     lmat=layout_matrix, lhei=lheight, lwid=lwidth)
- 
+
+
+png(file='results/heatmap_genewise.png', res=240, height=2000, width=2000)
+heatmapplot
 dev.off()
+
+#show plot
+heatmapplot
 ```
