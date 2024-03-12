@@ -53,7 +53,7 @@ getwd()
 paths <- list()
 
 # which folder to scan
-paths$count_output   <- "2024-03-06.kallisto.output"
+paths$count_output   <- "../kallisto.output"
 
 # find the kallisto outputfiles (for salmon outputs change .tsv to .sf)
 paths$count_files_relative <- grep(x = list.files(paths$count_output,
@@ -227,6 +227,7 @@ jpeg(file="results/PCA.jpeg")
 pcaplot
 dev.off()
 ```
+
 
 ## 9. Examine expresison profiles between tissues:  
 Another use of the transformed data is sample clustering. Here, we apply the 'dist()' function to calculate sample-to-sample distances. The greater the differences in gene expression between two samples, the greater the distance.
