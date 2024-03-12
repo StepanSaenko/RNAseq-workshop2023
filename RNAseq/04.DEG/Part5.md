@@ -10,8 +10,11 @@ library(RColorBrewer)
 ### if you have an external table with normalised readcounts, selected for e.g. p>0.05 you can load it with:
 ### input <- read.delim('abundance_table.txt', sep='\t', header=TRUE)
 
-### we will use our data from previous steps: 
+### we will use our data from previous steps:
+### Part1 step 5 created "txi_counts"
+### 
 ### thereby selecting only those genes that are differentially expressed between queen / worker brains
+### 
 
 gene_names <- rownames(genes)
 DF = data.frame(txi_counts$counts)
