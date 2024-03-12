@@ -253,7 +253,9 @@ ggsave(filename = "results/volcano_plot_brains.png",
 ```
 ## 8. extract and save the list of genes with sign. diff expression and/or log2fold cange
 ```
-genes <- subset(x = deseq_object_results_df, padj < 0.01 & abs(log2FoldChange)>2)
+genes <- subset(x = deseq_object_results_df, padj < 0.05)
+## more stringent
+#genes <- subset(x = deseq_object_results_df, padj < 0.01 & abs(log2FoldChange)>2)
 write.table(genes, file='results/genes.brains.tsv', quote=FALSE, sep='\t', col.names = NA)
 
 ```
