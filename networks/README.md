@@ -1,8 +1,6 @@
 # Gevol RNAseq workshop 2023/24: Networks, Katja Nowick, 13.03.2024
 
-- FileZilla or another equivalent tool to transfer remote files
-- WSL, Git bash, PuttY, mobaXterm or another terminal with ssh capability
-- Rstudio
+- Rstudio with packags (Deseq2, tidyverse, wTO, Codina)
 - download all files of the github folder "networks" locally to be used in RStudio
 
 
