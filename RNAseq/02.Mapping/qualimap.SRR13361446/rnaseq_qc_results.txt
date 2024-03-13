@@ -1,0 +1,55 @@
+RNA-Seq QC report
+-----------------------------------
+
+>>>>>>> Input
+
+    bam file = ./results/SRR13361446.Aligned.out.CoordSrted.bam
+    gff file = /scratch/rnaseq2023/Apis.mellifera.reference.genome/GCF_003254395.2_Amel_HAv3.1_genomic.gtf
+    counting algorithm = proportional
+    protocol = strand-specific-reverse
+    5'-3' bias region size = 100
+    5'-3' bias number of top transcripts = 1000
+
+
+>>>>>>> Reads alignment
+
+    reads aligned  = 183,463,656
+    total alignments = 192,661,695
+    secondary alignments = 9,198,039
+    non-unique alignments = 0
+    aligned to genes  = 152,447,434
+    ambiguous alignments = 88,638
+    no feature assigned = 39,919,307
+    not aligned = 0
+
+
+>>>>>>> Reads genomic origin
+
+    exonic =  152,447,434 (79.25%)
+    intronic = 16,497,254 (8.58%)
+    intergenic = 23,422,053 (12.18%)
+    overlapping exon = 8,529,412 (4.43%)
+
+
+>>>>>>> Transcript coverage profile
+
+    5' bias = 0.38
+    3' bias = 0.25
+    5'-3' bias = 2.08
+
+
+>>>>>>> Junction analysis
+
+    reads at junctions = 57,176,593
+
+    AGAT : 3.89%
+    ACCT : 3.72%
+    AGGT : 3.65%
+    ATCT : 3.08%
+    AGGA : 2.68%
+    TCCT : 2.58%
+    TGTT : 2.26%
+    AGAA : 2.22%
+    TTCT : 1.97%
+    AGCT : 1.46%
+    AACT : 1.36%
