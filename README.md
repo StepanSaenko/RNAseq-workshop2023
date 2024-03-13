@@ -4,7 +4,7 @@ Lars Podsiadlowski (LIB Museum Koenig)
 Katja Nowick (FU Berlin)
 Joe Colgan (U Mainz)
 
-## Day1: RNAseq, read processing, mapping, read counts, DEG, GO term enrichment (E. Stolle, L. Podsiadliwski, J. Colgan)
+## Day1: RNAseq, read processing, mapping, read counts, DEG, GO term enrichment (E. Stolle, L. Podsiadlowski, J. Colgan)
 ## Day2a: co-expression Networks, comparisons of networks (K. Nowick)
 ## Day2b: differential splicing (J. Colgan)
 
