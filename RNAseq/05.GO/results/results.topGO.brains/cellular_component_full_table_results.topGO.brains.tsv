@@ -1,0 +1,11 @@
+Cluster representative	Cluster member	Cluster member description	Member P-value	Member user defined value	Member IC	Member frequency
+GO:0045202	GO:0045202	synapse	1.000e+00	8.700e+01	2.954e+00	1.113e-03
+GO:0005761	GO:0005761	mitochondrial ribosome	2.000e+00	4.300e+01	4.431e+00	3.706e-05
+GO:0005739	GO:0005739	mitochondrion	3.000e+00	3.790e+02	1.822e+00	1.507e-02
+GO:0043005	GO:0043005	neuron projection	4.000e+00	1.080e+02	3.298e+00	5.040e-04
+GO:0016020	GO:0016020	membrane	5.000e+00	1.186e+03	2.812e-01	5.233e-01
+GO:0098590	GO:0098590	plasma membrane region	6.000e+00	7.000e+01	2.547e+00	2.840e-03
+GO:1902495	GO:1902495	transmembrane transporter complex	7.000e+00	5.500e+01	2.247e+00	5.657e-03
+GO:1902495	GO:0061695	transferase complex, transferring phosphorus-containing groups	1.000e+01	7.800e+01	2.420e+00	3.803e-03
+GO:0005743	GO:0005743	mitochondrial inner membrane	8.000e+00	1.000e+02	1.702e+00	1.987e-02
+GO:0098798	GO:0098798	mitochondrial protein-containing complex	9.000e+00	1.100e+02	3.012e+00	9.738e-04

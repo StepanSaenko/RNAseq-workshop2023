@@ -1,0 +1,152 @@
+1	GO:0007186	G protein-coupled receptor signaling pat...	133	101	81.23	1
+2	GO:0071705	nitrogen compound transport	376	225	229.64	2
+3	GO:0050793	regulation of developmental process	50	40	30.54	3
+4	GO:0000724	double-strand break repair via homologou...	52	41	31.76	4
+5	GO:0032989	cellular component morphogenesis	55	43	33.59	5
+6	GO:0022414	reproductive process	71	54	43.36	6
+7	GO:0065008	regulation of biological quality	310	199	189.33	7
+8	GO:0006399	tRNA metabolic process	118	86	72.07	8
+9	GO:0045786	negative regulation of cell cycle	54	42	32.98	9
+10	GO:0007267	cell-cell signaling	149	108	91	10
+11	GO:0051604	protein maturation	60	46	36.64	11
+12	GO:0071702	organic substance transport	467	281	285.21	12
+13	GO:0007154	cell communication	820	556	500.8	13
+14	GO:0000904	cell morphogenesis involved in different...	50	39	30.54	14
+15	GO:0006520	cellular amino acid metabolic process	131	84	80.01	15
+16	GO:0043085	positive regulation of catalytic activit...	92	67	56.19	16
+17	GO:0006302	double-strand break repair	80	64	48.86	17
+18	GO:0009968	negative regulation of signal transducti...	51	39	31.15	18
+19	GO:1901987	regulation of cell cycle phase transitio...	57	43	34.81	19
+20	GO:0006518	peptide metabolic process	341	220	208.26	20
+21	GO:0010629	negative regulation of gene expression	100	67	61.07	21
+22	GO:0003008	system process	214	106	130.7	22
+23	GO:0006928	movement of cell or subcellular componen...	206	131	125.81	23
+24	GO:0051649	establishment of localization in cell	473	286	288.88	24
+25	GO:0031175	neuron projection development	60	44	36.64	25
+26	GO:0065009	regulation of molecular function	179	121	109.32	26
+27	GO:0007166	cell surface receptor signaling pathway	201	136	122.76	27
+28	GO:0000280	nuclear division	74	53	45.19	28
+29	GO:0006811	ion transport	358	233	218.64	29
+30	GO:0006814	sodium ion transport	56	41	34.2	30
+31	GO:0043549	regulation of kinase activity	59	43	36.03	31
+32	GO:0006357	regulation of transcription by RNA polym...	554	353	338.35	32
+33	GO:0010243	response to organonitrogen compound	61	44	37.25	33
+34	GO:0007346	regulation of mitotic cell cycle	61	44	37.25	34
+35	GO:0035556	intracellular signal transduction	312	208	190.55	35
+36	GO:0034330	cell junction organization	55	40	33.59	36
+37	GO:0051726	regulation of cell cycle	117	83	71.46	37
+38	NA	NA	NA	NA	NA	NA
+39	NA	NA	NA	NA	NA	NA
+40	NA	NA	NA	NA	NA	NA
+41	NA	NA	NA	NA	NA	NA
+42	NA	NA	NA	NA	NA	NA
+43	NA	NA	NA	NA	NA	NA
+44	NA	NA	NA	NA	NA	NA
+45	NA	NA	NA	NA	NA	NA
+46	NA	NA	NA	NA	NA	NA
+47	NA	NA	NA	NA	NA	NA
+48	NA	NA	NA	NA	NA	NA
+49	NA	NA	NA	NA	NA	NA
+50	NA	NA	NA	NA	NA	NA
+51	GO.ID	Term	Annotated	Significant	Expected	Rank in weight_fisher
+52	GO:0045202	synapse	115	87	70.73	1
+53	GO:0005761	mitochondrial ribosome	53	43	32.6	2
+54	GO:0005739	mitochondrion	551	379	338.91	3
+55	GO:0043005	neuron projection	149	108	91.65	4
+56	GO:0016020	membrane	1889	1186	1161.88	5
+57	GO:0098590	plasma membrane region	96	70	59.05	6
+58	GO:1902495	transmembrane transporter complex	75	55	46.13	7
+59	GO:0005743	mitochondrial inner membrane	141	100	86.73	8
+60	GO:0098798	mitochondrial protein-containing complex	157	110	96.57	9
+61	GO:0061695	transferase complex, transferring phosph...	126	78	77.5	10
+62	NA	NA	NA	NA	NA	NA
+63	NA	NA	NA	NA	NA	NA
+64	NA	NA	NA	NA	NA	NA
+65	NA	NA	NA	NA	NA	NA
+66	NA	NA	NA	NA	NA	NA
+67	NA	NA	NA	NA	NA	NA
+68	NA	NA	NA	NA	NA	NA
+69	NA	NA	NA	NA	NA	NA
+70	NA	NA	NA	NA	NA	NA
+71	NA	NA	NA	NA	NA	NA
+72	NA	NA	NA	NA	NA	NA
+73	NA	NA	NA	NA	NA	NA
+74	NA	NA	NA	NA	NA	NA
+75	NA	NA	NA	NA	NA	NA
+76	NA	NA	NA	NA	NA	NA
+77	NA	NA	NA	NA	NA	NA
+78	NA	NA	NA	NA	NA	NA
+79	NA	NA	NA	NA	NA	NA
+80	NA	NA	NA	NA	NA	NA
+81	NA	NA	NA	NA	NA	NA
+82	NA	NA	NA	NA	NA	NA
+83	NA	NA	NA	NA	NA	NA
+84	NA	NA	NA	NA	NA	NA
+85	NA	NA	NA	NA	NA	NA
+86	NA	NA	NA	NA	NA	NA
+87	NA	NA	NA	NA	NA	NA
+88	NA	NA	NA	NA	NA	NA
+89	NA	NA	NA	NA	NA	NA
+90	NA	NA	NA	NA	NA	NA
+91	NA	NA	NA	NA	NA	NA
+92	NA	NA	NA	NA	NA	NA
+93	NA	NA	NA	NA	NA	NA
+94	NA	NA	NA	NA	NA	NA
+95	NA	NA	NA	NA	NA	NA
+96	NA	NA	NA	NA	NA	NA
+97	NA	NA	NA	NA	NA	NA
+98	NA	NA	NA	NA	NA	NA
+99	NA	NA	NA	NA	NA	NA
+100	NA	NA	NA	NA	NA	NA
+101	NA	NA	NA	NA	NA	NA
+102	GO.ID	Term	Annotated	Significant	Expected	Rank in weight_fisher
+103	GO:0004930	G protein-coupled receptor activity	93	72	56.37	1
+104	GO:0140101	catalytic activity, acting on a tRNA	76	58	46.07	2
+105	GO:0004518	nuclease activity	82	61	49.7	3
+106	GO:0098772	molecular function regulator	345	233	209.11	4
+107	GO:0005261	cation channel activity	99	71	60.01	5
+108	GO:0015291	secondary active transmembrane transport...	63	47	38.19	6
+109	GO:0046873	metal ion transmembrane transporter acti...	119	83	72.13	7
+110	GO:0000978	RNA polymerase II cis-regulatory region ...	268	178	162.44	8
+111	GO:0048018	receptor ligand activity	51	38	30.91	9
+112	GO:0005543	phospholipid binding	95	59	57.58	10
+113	GO:0005102	signaling receptor binding	118	86	71.52	11
+114	NA	NA	NA	NA	NA	NA
+115	NA	NA	NA	NA	NA	NA
+116	NA	NA	NA	NA	NA	NA
+117	NA	NA	NA	NA	NA	NA
+118	NA	NA	NA	NA	NA	NA
+119	NA	NA	NA	NA	NA	NA
+120	NA	NA	NA	NA	NA	NA
+121	NA	NA	NA	NA	NA	NA
+122	NA	NA	NA	NA	NA	NA
+123	NA	NA	NA	NA	NA	NA
+124	NA	NA	NA	NA	NA	NA
+125	NA	NA	NA	NA	NA	NA
+126	NA	NA	NA	NA	NA	NA
+127	NA	NA	NA	NA	NA	NA
+128	NA	NA	NA	NA	NA	NA
+129	NA	NA	NA	NA	NA	NA
+130	NA	NA	NA	NA	NA	NA
+131	NA	NA	NA	NA	NA	NA
+132	NA	NA	NA	NA	NA	NA
+133	NA	NA	NA	NA	NA	NA
+134	NA	NA	NA	NA	NA	NA
+135	NA	NA	NA	NA	NA	NA
+136	NA	NA	NA	NA	NA	NA
+137	NA	NA	NA	NA	NA	NA
+138	NA	NA	NA	NA	NA	NA
+139	NA	NA	NA	NA	NA	NA
+140	NA	NA	NA	NA	NA	NA
+141	NA	NA	NA	NA	NA	NA
+142	NA	NA	NA	NA	NA	NA
+143	NA	NA	NA	NA	NA	NA
+144	NA	NA	NA	NA	NA	NA
+145	NA	NA	NA	NA	NA	NA
+146	NA	NA	NA	NA	NA	NA
+147	NA	NA	NA	NA	NA	NA
+148	NA	NA	NA	NA	NA	NA
+149	NA	NA	NA	NA	NA	NA
+150	NA	NA	NA	NA	NA	NA
+151	NA	NA	NA	NA	NA	NA
+152	NA	NA	NA	NA	NA	NA

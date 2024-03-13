@@ -1,0 +1,12 @@
+Cluster representative	Cluster member	Cluster member description	Member P-value	Member user defined value	Member IC	Member frequency
+GO:0004930	GO:0004930	G protein-coupled receptor activity	1.000e+00	7.200e+01	2.572e+00	2.681e-03
+GO:0140101	GO:0140101	catalytic activity, acting on a tRNA	2.000e+00	5.800e+01	1.740e+00	1.818e-02
+GO:0004518	GO:0004518	nuclease activity	3.000e+00	6.100e+01	1.783e+00	1.647e-02
+GO:0098772	GO:0098772	molecular function regulator activity	4.000e+00	2.330e+02	2.333e+00	4.645e-03
+GO:0098772	GO:0048018	receptor ligand activity	9.000e+00	3.800e+01	3.103e+00	7.887e-04
+GO:0015291	GO:0015291	secondary active transmembrane transporter activity	6.000e+00	4.700e+01	2.498e+00	3.179e-03
+GO:0015291	GO:0005261	monoatomic cation channel activity	5.000e+00	7.100e+01	2.503e+00	3.142e-03
+GO:0015291	GO:0046873	metal ion transmembrane transporter activity	7.000e+00	8.300e+01	2.464e+00	3.432e-03
+GO:0000978	GO:0000978	RNA polymerase II cis-regulatory region sequence-specific DNA binding	8.000e+00	1.780e+02	3.656e+00	2.208e-04
+GO:0005543	GO:0005543	phospholipid binding	1.000e+01	5.900e+01	3.159e+00	6.937e-04
+GO:0005102	GO:0005102	signaling receptor binding	1.100e+01	8.600e+01	2.800e+00	1.583e-03

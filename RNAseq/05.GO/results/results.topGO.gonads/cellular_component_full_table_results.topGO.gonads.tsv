@@ -1,0 +1,24 @@
+Cluster representative	Cluster member	Cluster member description	Member P-value	Member user defined value	Member IC	Member frequency
+GO:0005615	GO:0005615	extracellular space	1.000e+00	6.100e+01	2.903e+00	1.250e-03
+GO:0031012	GO:0031012	extracellular matrix	2.000e+00	3.500e+01	3.305e+00	4.952e-04
+GO:0005576	GO:0005576	extracellular region	3.000e+00	1.040e+02	1.966e+00	1.081e-02
+GO:0016020	GO:0016020	membrane	4.000e+00	3.660e+02	2.812e-01	5.233e-01
+GO:0005874	GO:0005874	microtubule	5.000e+00	2.400e+01	2.729e+00	1.867e-03
+GO:0005874	GO:0099513	polymeric cytoskeletal fiber	1.100e+01	3.200e+01	2.617e+00	2.414e-03
+GO:0005874	GO:0099512	supramolecular fiber	1.000e+01	4.000e+01	2.607e+00	2.470e-03
+GO:0005874	GO:0099080	supramolecular complex	6.000e+00	6.300e+01	2.512e+00	3.079e-03
+GO:0005694	GO:0005694	chromosome	8.000e+00	6.100e+01	2.628e+00	2.353e-03
+GO:0005694	GO:0043232	intracellular non-membrane-bounded organelle	1.500e+01	2.020e+02	1.188e+00	6.485e-02
+GO:0005813	GO:0005813	centrosome	9.000e+00	2.200e+01	3.641e+00	2.285e-04
+GO:0005929	GO:0005929	cilium	1.200e+01	3.800e+01	3.086e+00	8.210e-04
+GO:0005929	GO:0043005	neuron projection	7.000e+00	4.700e+01	3.298e+00	5.040e-04
+GO:0005929	GO:0030424	axon	1.700e+01	1.600e+01	3.784e+00	1.646e-04
+GO:0005886	GO:0005886	plasma membrane	1.300e+01	1.520e+02	9.811e-01	1.044e-01
+GO:0005875	GO:0005875	microtubule associated complex	1.400e+01	1.900e+01	3.114e+00	7.694e-04
+GO:0005634	GO:0005634	nucleus	1.600e+01	3.230e+02	1.403e+00	3.954e-02
+GO:0000785	GO:0000785	chromatin	1.800e+01	2.700e+01	3.573e+00	2.674e-04
+GO:0000785	GO:0032993	protein-DNA complex	2.000e+01	1.600e+01	2.655e+00	2.215e-03
+GO:0099568	GO:0099568	cytoplasmic region	1.900e+01	1.600e+01	4.462e+00	3.453e-05
+GO:0045202	GO:0045202	synapse	2.100e+01	3.000e+01	2.954e+00	1.113e-03
+GO:0005856	GO:0005856	cytoskeleton	2.200e+01	1.010e+02	2.407e+00	3.919e-03
+GO:0110165	GO:0110165	cellular anatomical entity	2.300e+01	1.067e+03	3.977e-02	9.125e-01

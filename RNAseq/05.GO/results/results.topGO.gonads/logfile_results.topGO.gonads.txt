@@ -1,0 +1,19 @@
+GO-Figure! version: 1.0.1
+
+Date run: 2024-03-12
+
+Command line input: ['/home/ek/.conda/envs/R1/bin/gofigure.py', '-j', 'topgo', '-i', 'results.topGO.gonads/go_term_output_50_fisher/all_top50.formatted.1.tsv', '-o', 'results.topGO.gonads']
+
+go.obo version used: releases/2023-04-01
+
+go.obo version used to create GO relations: releases/2023-04-01
+
+
+Calculating biological process
+
+
+Calculating molecular function
+
+
+Calculating cellular component
+

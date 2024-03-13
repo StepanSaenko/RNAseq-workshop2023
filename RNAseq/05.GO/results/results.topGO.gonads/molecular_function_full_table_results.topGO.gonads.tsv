@@ -1,0 +1,25 @@
+Cluster representative	Cluster member	Cluster member description	Member P-value	Member user defined value	Member IC	Member frequency
+GO:0000981	GO:0000981	DNA-binding transcription factor activity, RNA polymerase II-specific	1.000e+00	1.200e+02	2.937e+00	1.157e-03
+GO:0000978	GO:0000978	RNA polymerase II cis-regulatory region sequence-specific DNA binding	2.000e+00	9.000e+01	3.656e+00	2.208e-04
+GO:0000978	GO:0000977	RNA polymerase II transcription regulatory region sequence-specific DNA binding	8.000e+00	1.160e+02	3.459e+00	3.474e-04
+GO:0000978	GO:1990837	sequence-specific double-stranded DNA binding	1.400e+01	1.290e+02	3.110e+00	7.768e-04
+GO:0020037	GO:0020037	heme binding	3.000e+00	3.600e+01	2.176e+00	6.671e-03
+GO:0016705	GO:0016705	oxidoreductase activity, acting on paired donors, with incorporation or reduction of molecular oxygen	4.000e+00	3.500e+01	2.507e+00	3.114e-03
+GO:0004497	GO:0004497	monooxygenase activity	5.000e+00	2.700e+01	2.362e+00	4.341e-03
+GO:0005198	GO:0005198	structural molecule activity	6.000e+00	4.200e+01	1.622e+00	2.387e-02
+GO:0005506	GO:0005506	iron ion binding	7.000e+00	3.200e+01	2.447e+00	3.573e-03
+GO:0046943	GO:0046943	carboxylic acid transmembrane transporter activity	9.000e+00	2.400e+01	2.880e+00	1.317e-03
+GO:0046943	GO:0022857	transmembrane transporter activity	1.000e+01	1.400e+02	1.349e+00	4.478e-02
+GO:0005509	GO:0005509	calcium ion binding	1.100e+01	4.800e+01	2.599e+00	2.516e-03
+GO:0003774	GO:0003774	cytoskeletal motor activity	1.200e+01	2.100e+01	2.915e+00	1.216e-03
+GO:0008061	GO:0008061	chitin binding	1.300e+01	1.900e+01	3.582e+00	2.618e-04
+GO:0008017	GO:0008017	microtubule binding	1.500e+01	2.600e+01	3.272e+00	5.341e-04
+GO:0016614	GO:0016614	oxidoreductase activity, acting on CH-OH group of donors	1.700e+01	1.900e+01	1.985e+00	1.036e-02
+GO:1901363	GO:1901363	heterocyclic compound binding	1.900e+01	4.730e+02	5.728e-01	2.674e-01
+GO:1901363	GO:0097159	organic cyclic compound binding	2.100e+01	4.760e+02	5.727e-01	2.675e-01
+GO:0004930	GO:0004930	G protein-coupled receptor activity	2.000e+01	2.700e+01	2.572e+00	2.681e-03
+GO:0046873	GO:0046873	metal ion transmembrane transporter activity	2.200e+01	3.300e+01	2.464e+00	3.432e-03
+GO:0046873	GO:0015276	ligand-gated monoatomic ion channel activity	1.600e+01	1.900e+01	3.183e+00	6.561e-04
+GO:0046873	GO:0022836	gated channel activity	1.800e+01	3.200e+01	2.763e+00	1.727e-03
+GO:0016798	GO:0016798	hydrolase activity, acting on glycosyl bonds	2.300e+01	1.800e+01	1.892e+00	1.282e-02
+GO:0140657	GO:0140657	ATP-dependent activity	2.400e+01	6.500e+01	1.788e+00	1.629e-02
